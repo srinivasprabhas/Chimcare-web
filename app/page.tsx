@@ -6,6 +6,8 @@ import './_home/overrides.css';
 import { HOME_BODY_CLASS, HOME_CSS_HREF, HOME_HTML, HOME_META, HOME_SCHEMA } from './_home/content';
 import { BookingSheet } from '@/components/islands/BookingSheet';
 import { HomeBehaviour } from '@/components/islands/HomeBehaviour';
+import { HomeBookingSlot } from '@/components/islands/HomeBookingSlot';
+import type { BookingContext } from '@/lib/booking/types';
 import { SITE_URL, bookingOptions } from '@/lib/content/assemble';
 import { getPrices } from '@/lib/data/pricing';
 
@@ -38,7 +40,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const prices = await getPrices(null);
+  const booking = bookingOptions(await getPrices(null));
+  const bookingContext: BookingContext = { pageSlug: '/', pageKind: 'hub', label: 'Chimcare' };
   return (
     <>
       <link rel="stylesheet" href={HOME_CSS_HREF} precedence="default" />
@@ -56,7 +59,8 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <BookingSheet options={bookingOptions(prices)} context={{ pageSlug: '/', pageKind: 'hub', label: 'Chimcare' }} />
+      <HomeBookingSlot options={booking} context={bookingContext} />
+      <BookingSheet options={booking} context={bookingContext} />
       <HomeBehaviour />
     </>
   );

@@ -1,10 +1,12 @@
 import '@/styles/state.css';
+import '@/styles/hub-booking.css';
 import type { CSSProperties } from 'react';
 import type { StateHubProps } from '@/lib/content/assemble-hubs';
 import { Icon } from '@/components/chrome/Icon';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Accordion } from '@/components/islands/Accordion';
 import { Breadcrumbs, HeroAwards, SectionHead, TrustStrip } from '@/components/sections/shared';
+import { BookingForm } from '@/components/islands/BookingForm';
 import { BookingSheet } from '@/components/islands/BookingSheet';
 import { HeroSearch } from '@/components/islands/HeroSearch';
 import { LocationDirectory } from '@/components/islands/LocationDirectory';
@@ -29,7 +31,7 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
       <section className="hero" id="o1-hero">
         <div className="wrap enter">
           <Breadcrumbs crumbs={p.crumbs} style={{ '--i': 0 } as CSSProperties} />
-          <div className="hero-grid" style={{ '--i': 1 } as CSSProperties}>
+          <div className="hero-grid has-book" style={{ '--i': 1 } as CSSProperties}>
             <div className="hero-copy">
               <h1><span className="hl">Chimcare</span> Locations in {p.hero.name}</h1>
               <p className="lede">{p.hero.lede}</p>
@@ -49,6 +51,10 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
                 <div><b>1989</b><span>Serving since</span></div>
                 <div><b>CSIA</b><span>Certified technicians</span></div>
               </div>
+            </div>
+            {/* The same booking widget as the location pages; the Schedule Service buttons scroll to it. */}
+            <div className="book-slot">
+              <BookingForm embedded options={p.booking} context={p.bookingContext} />
             </div>
           </div>
           <div className="hero-certs">

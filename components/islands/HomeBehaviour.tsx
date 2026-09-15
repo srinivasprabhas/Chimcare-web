@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import type { BookingPrefill, ServiceKey } from '@/lib/booking/types';
 
 /**
  * The homepage is WordPress/Elementor markup rendered verbatim (app/_home/content.ts), with every WordPress
@@ -12,20 +11,12 @@ import type { BookingPrefill, ServiceKey } from '@/lib/booking/types';
  *   - FAQ accordion (one item open at a time, as Elementor does)
  *   - counters counting up when they scroll into view
  *   - the US map tooltip (the saved page's own `chimcare-map-tip` script, ported)
- *   - the Gravity Forms "Request Service" form → opens the app booking sheet, prefilled
  *   - the location search → the locations hub
  *
+ * The hero's booking form is the app's own component (HomeBookingSlot), not WordPress markup.
  * Content never depends on this running: with no JS the page shows the same text, counters show their
  * final values and the first FAQ answer is open.
  */
-
-// Gravity Forms option text → booking service. Order matters: "Chimney Sweep + Inspection" is a sweep.
-const SERVICE_BY_OPTION: [RegExp, ServiceKey][] = [
-  [/sweep/i, 'sweep'],
-  [/gas/i, 'gas'],
-  [/inspection/i, 'inspect'],
-  [/quote/i, 'quote'],
-];
 
 export function HomeBehaviour() {
   useEffect(() => {
@@ -209,23 +200,6 @@ export function HomeBehaviour() {
       map.addEventListener('focusout', hide, { signal });
       document.addEventListener('keydown', (e) => e.key === 'Escape' && hide(), { signal });
     }
-
-    // ---- request-service form → booking sheet -------------------------------------------------
-    const form = root.querySelector<HTMLFormElement>('#gform_24');
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const value = (selector: string) => form.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value.trim() ?? '';
-      if (value('#field_24_8 input')) return; // Gravity Forms honeypot
-      const option = value('select');
-      const service = SERVICE_BY_OPTION.find(([re]) => re.test(option))?.[1] ?? null;
-      const prefill: BookingPrefill = {
-        name: value('input[placeholder^="Name"]'),
-        email: value('input[type="email"]'),
-        phone: value('input[placeholder^="Phone"]'),
-        zip: value('input[placeholder^="Zip"]'),
-      };
-      document.dispatchEvent(new CustomEvent('chimcare:open-booking', { detail: { service, prefill } }));
-    }, { signal });
 
     // ---- location search → locations hub ------------------------------------------------------
     root.querySelectorAll<HTMLFormElement>('.e-search-form').forEach((search) => {

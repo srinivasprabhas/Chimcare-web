@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/chrome/Icon';
-import { TIME_WINDOWS, type BookingContext, type BookingPrefill, type ServiceKey } from '@/lib/booking/types';
+import { TIME_WINDOWS, type BookingContext, type ServiceKey } from '@/lib/booking/types';
 import { todayISO, validateBooking } from '@/lib/booking/validate';
 import type { BookingOption } from '@/lib/content/assemble';
 
@@ -27,19 +27,17 @@ export function BookingForm({
   options,
   context,
   initialService,
-  initialValues,
   embedded = false,
   onClose,
 }: {
   options: BookingOption[];
   context: BookingContext;
   initialService?: ServiceKey | null;
-  initialValues?: BookingPrefill;
   embedded?: boolean;
   onClose?: () => void;
 }) {
   const [step, setStep] = useState(1);
-  const [draft, setDraft] = useState<Draft>({ ...EMPTY, ...initialValues, service: initialService ?? '' });
+  const [draft, setDraft] = useState<Draft>({ ...EMPTY, service: initialService ?? '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [receipt, setReceipt] = useState<{ reference: string; status: string } | null>(null);
