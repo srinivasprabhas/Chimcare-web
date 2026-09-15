@@ -114,38 +114,6 @@ function scopeSelector(raw) {
   return [`${SCOPE} ${sel}`];
 }
 
-/**
- * App components rendered inside the WordPress markup (the booking form in the hero) sit in a `.wp-app` container.
- * Every WordPress rule's subject gets `:not(.wp-app, .wp-app *)`, so none of them can restyle app markup — it
- * renders exactly as it does on every other page. The guard goes before any pseudo-element, where it must be.
- * It adds the same specificity to every rule, so their relative order is unchanged.
- */
-const APP_GUARD = ':not(.wp-app, .wp-app *)';
-function guardSubject(sel) {
-  let depth = 0, quote = '', last = 0;
-  for (let i = 0; i < sel.length; i++) {
-    const ch = sel[i];
-    if (quote) { if (ch === quote) quote = ''; continue; }
-    if (ch === '"' || ch === "'") quote = ch;
-    else if (ch === '(' || ch === '[') depth++;
-    else if (ch === ')' || ch === ']') depth--;
-    else if (depth === 0 && /[\s>+~]/.test(ch)) last = i + 1;
-  }
-  const compound = sel.slice(last);
-  let at = compound.length;
-  depth = 0;
-  for (let j = 0; j < compound.length; j++) {
-    const ch = compound[j];
-    if (ch === '(' || ch === '[') depth++;
-    else if (ch === ')' || ch === ']') depth--;
-    else if (depth === 0 && ch === ':' && (compound[j + 1] === ':' || /^:(before|after|first-line|first-letter)(?![\w-])/i.test(compound.slice(j)))) {
-      at = j;
-      break;
-    }
-  }
-  return sel.slice(0, last) + compound.slice(0, at) + APP_GUARD + compound.slice(at);
-}
-
 /** Split CSS into top-level statements by brace depth (strings and comments respected); stray `}` are dropped. */
 function topLevelStatements(css) {
   const out = [];
@@ -236,7 +204,7 @@ async function buildCss(chunks) {
     if (rule.parent?.type === 'atrule' && /keyframes$/i.test(rule.parent.name)) return;
     const scoped = rule.selectors.flatMap(scopeSelector);
     if (!scoped.length) rule.remove();
-    else rule.selectors = [...new Set(scoped)].map(guardSubject);
+    else rule.selectors = [...new Set(scoped)];
   });
   return ast.toString();
 }
@@ -258,8 +226,8 @@ body = body
   .replace(/(class="[^"]*?)\s*\belementor-invisible\b/g, '$1');
 body = externaliseDataUris(body);
 
-// The hero's Gravity Forms "Request Service" strip is replaced by an empty slot; app/page.tsx renders the app's
-// own booking form into it (the same component as every location page), so bookings go through /api/bookings.
+// The hero's Gravity Forms "Request Service" strip is removed: it posts to WordPress, and the homepage has no inline
+// form. The phone-only "Request service" button stays and opens the app booking sheet (data-book).
 function replaceSection(html, elementId, replacement) {
   const start = html.indexOf(`<section class="elementor-section elementor-inner-section elementor-element elementor-element-${elementId} `);
   if (start < 0) throw new Error(`section ${elementId} not found`);
@@ -272,7 +240,7 @@ function replaceSection(html, elementId, replacement) {
   }
   throw new Error(`section ${elementId} is not closed`);
 }
-body = replaceSection(body, 'a2114d2', '<div class="wp-app book-slot home-book-slot" id="home-booking-slot"></div>');
+body = replaceSection(body, 'a2114d2', '');
 
 // Links: this app answers `/` and `/locations/…`; everything else stays on production.
 body = body

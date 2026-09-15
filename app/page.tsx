@@ -6,7 +6,6 @@ import './_home/overrides.css';
 import { HOME_BODY_CLASS, HOME_CSS_HREF, HOME_HTML, HOME_META, HOME_SCHEMA } from './_home/content';
 import { BookingSheet } from '@/components/islands/BookingSheet';
 import { HomeBehaviour } from '@/components/islands/HomeBehaviour';
-import { HomeBookingSlot } from '@/components/islands/HomeBookingSlot';
 import type { BookingContext } from '@/lib/booking/types';
 import { SITE_URL, bookingOptions } from '@/lib/content/assemble';
 import { getPrices } from '@/lib/data/pricing';
@@ -59,7 +58,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <HomeBookingSlot options={booking} context={bookingContext} />
       <BookingSheet options={booking} context={bookingContext} />
       <HomeBehaviour />
     </>

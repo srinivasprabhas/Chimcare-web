@@ -8,7 +8,9 @@
 .lmap-list li { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding: 7px 2px; border-bottom: 1px solid var(--line, rgba(0,0,0,.08)); font-size: 14px; }
 .lmap-list li:last-child { border-bottom: 0; }
 .lmap-list .tel { color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.tpl-state .lmap { display: block; overflow: auto; padding: 16px; }
+/* Only the fallback list scrolls. This rule used to sit on `.lmap` itself — the Leaflet container — where it
+   beat Leaflet's own `overflow: hidden`: the live map grew scrollbars and its panes were offset by the padding. */
+.tpl-state .lmap-list-wrap { display: block; overflow: auto; padding: 16px; }
 
 @media (max-width: 900px) {
   .map-toggle { display: inline-flex; margin-top: 18px; }

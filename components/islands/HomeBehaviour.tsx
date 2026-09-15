@@ -13,7 +13,6 @@ import { useEffect } from 'react';
  *   - the US map tooltip (the saved page's own `chimcare-map-tip` script, ported)
  *   - the location search → the locations hub
  *
- * The hero's booking form is the app's own component (HomeBookingSlot), not WordPress markup.
  * Content never depends on this running: with no JS the page shows the same text, counters show their
  * final values and the first FAQ answer is open.
  */

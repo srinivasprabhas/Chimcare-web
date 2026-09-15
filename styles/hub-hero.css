@@ -1,0 +1,77 @@
+/* National and state hub heroes (`.tpl-hub`, `.tpl-state`): what the ported mock CSS does not cover.
+
+   1. The booking form — the same widget as the location pages (`BookingForm embedded`) — in the hero's
+      right column. The widget's own look comes from base.css and booking.css; this only places it. The
+      ported CSS collapses `.hero-grid` to one column (the mocks had no right column), so `.has-book`
+      restores two.
+   2. Memberships & awards sit in the text column, straight under the stats, so the taller form column
+      no longer pushes them down.
+   3. The search field's submit arrow. The mocks never styled `.searchbar-go`, so it rendered as the
+      browser's grey default button; it is a bare brand-red arrow inside the field. */
+
+/* 1 */
+.tpl-hub .hero-grid.has-book,
+.tpl-state .hero-grid.has-book {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+  align-items: start;
+}
+.tpl-hub .book-slot,
+.tpl-state .book-slot {
+  width: 100%;
+  max-width: 540px;
+  justify-self: end;
+  min-width: 0;
+  text-align: left; /* the hero centres its copy on small screens; the widget stays left-aligned, as on location pages */
+}
+@media (max-width: 1040px) {
+  .tpl-hub .hero-grid.has-book,
+  .tpl-state .hero-grid.has-book {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tpl-hub .book-slot,
+  .tpl-state .book-slot {
+    max-width: 720px;
+    justify-self: stretch;
+  }
+}
+
+/* 2 */
+.tpl-hub .hero-copy .hero-certs,
+.tpl-state .hero-copy .hero-certs {
+  margin-top: 22px;
+}
+
+/* 3 */
+.tpl-hub .searchbar-go,
+.tpl-state .searchbar-go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--brand-primary);
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+.tpl-hub .searchbar-go svg,
+.tpl-state .searchbar-go svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.4;
+}
+.tpl-hub .searchbar-go:hover,
+.tpl-state .searchbar-go:hover {
+  color: var(--brand-primary-deep);
+  transform: translateX(3px);
+}
+.tpl-hub .searchbar-go:focus-visible,
+.tpl-state .searchbar-go:focus-visible {
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 1px;
+}

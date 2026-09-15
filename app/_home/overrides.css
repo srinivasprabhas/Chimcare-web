@@ -9,13 +9,8 @@
       image display on bare elements. WordPress's CSS was written against
       browser defaults, so inside `.wp-home` those properties go back to the
       user-agent value. `:where()` keeps these at the lowest specificity, so
-      every scoped WordPress rule still wins. App markup (`.wp-app`) is left
-      out, so it keeps the reset it was designed against.
+      every scoped WordPress rule still wins.
    3. Elementor's JS-driven sticky "Why choose" column becomes CSS sticky.
-   4. The app booking form in the hero (replacing the Gravity Forms strip).
-      WordPress rules are kept off `.wp-app` by the generator; here the
-      container stops inheriting the hero's white, centred text and gets the
-      app body's type back.
    ===================================================================== */
 
 /* 1 */
@@ -32,25 +27,25 @@ body:has(> .wp-home) > #sfoot {
   color: CanvasText;
   -webkit-font-smoothing: auto;
 }
-.wp-home :where(img):not(.wp-app *) {
+.wp-home :where(img) {
   display: revert;
 }
-.wp-home :where(h1, h2, h3, h4, p, ul, ol):not(.wp-app *) {
+.wp-home :where(h1, h2, h3, h4, p, ul, ol) {
   margin: revert;
   line-height: revert;
   font-family: revert;
   font-weight: revert;
   text-wrap: revert;
 }
-.wp-home :where(ul, ol):not(.wp-app *) {
+.wp-home :where(ul, ol) {
   padding: revert;
   list-style: revert;
 }
-.wp-home :where(button):not(.wp-app *) {
+.wp-home :where(button) {
   font: revert;
   cursor: revert;
 }
-.wp-home :where(a):not(.wp-app *) {
+.wp-home :where(a) {
   color: revert;
 }
 
@@ -60,31 +55,5 @@ body:has(> .wp-home) > #sfoot {
     position: sticky;
     top: 80px;
     align-self: flex-start;
-  }
-}
-
-/* 4 */
-.wp-home .wp-app {
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1.6;
-  letter-spacing: normal;
-  text-align: left;
-  text-transform: none;
-  white-space: normal;
-  -webkit-font-smoothing: antialiased;
-}
-.wp-home .home-book-slot {
-  width: 100%;
-  max-width: 540px;
-  min-height: 560px; /* holds the card's space until the form mounts, so the hero does not jump */
-  margin: 32px auto 48px;
-}
-@media (max-width: 767px) {
-  .wp-home .home-book-slot {
-    margin: 24px auto 32px;
   }
 }

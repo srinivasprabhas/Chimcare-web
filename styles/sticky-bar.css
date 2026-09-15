@@ -1,0 +1,16 @@
+/* The Call Now / Book Online bar (`#sfoot`, components/chrome/StickyBar.tsx).
+
+   On phones base.css already keeps it off-screen until StickyBar adds `.is-on` (hero scrolled past). The
+   desktop pill (≥901px) had no such rule, so it floated over the hero on every page. Same condition here:
+   hidden until `.is-on`, fading in from just below its resting place. */
+@media (min-width: 901px) {
+  .sfoot {
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+  .sfoot:not(.is-on) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(16px);
+  }
+}

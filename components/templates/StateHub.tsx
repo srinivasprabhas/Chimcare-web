@@ -1,5 +1,5 @@
 import '@/styles/state.css';
-import '@/styles/hub-booking.css';
+import '@/styles/hub-hero.css';
 import type { CSSProperties } from 'react';
 import type { StateHubProps } from '@/lib/content/assemble-hubs';
 import { Icon } from '@/components/chrome/Icon';
@@ -51,15 +51,15 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
                 <div><b>1989</b><span>Serving since</span></div>
                 <div><b>CSIA</b><span>Certified technicians</span></div>
               </div>
+              <div className="hero-certs">
+                <span className="lbl">MEMBERSHIPS &amp; AWARDS</span>
+                <HeroAwards />
+              </div>
             </div>
             {/* The same booking widget as the location pages; the Schedule Service buttons scroll to it. */}
             <div className="book-slot">
               <BookingForm embedded options={p.booking} context={p.bookingContext} />
             </div>
-          </div>
-          <div className="hero-certs">
-            <span className="lbl">MEMBERSHIPS &amp; AWARDS</span>
-            <HeroAwards />
           </div>
         </div>
         {p.imgCredit && <small className="hero-credit">{p.imgCredit}</small>}

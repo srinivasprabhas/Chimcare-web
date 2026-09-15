@@ -17,8 +17,8 @@ import type { LocationCard } from '@/lib/content/assemble-hubs';
  * from a crawler. If Leaflet cannot load, or no location has coordinates, the panel shows a plain list.
  *
  * The pin, tooltip and popup classes (`lpin`, `ltip`, `lpop`) are the design's own, styled in state.css.
- * Scroll-wheel zoom is off so the page scrolls past the map, and one-finger dragging is off on phones for
- * the same reason; pinch zoom and the zoom buttons still work.
+ * Scroll-wheel zoom starts off so the page scrolls past the map, and turns on once the map is clicked or
+ * focused. One-finger dragging is off on phones for the same reason; pinch zoom and the zoom buttons still work.
  */
 
 const TILE_URL = process.env.NEXT_PUBLIC_MAP_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -61,7 +61,12 @@ export function MapPanel({ cards }: { cards: LocationCard[] }) {
         if (cancelled) return;
         // Leaflet is a CommonJS package; bundlers expose it either as the module itself or as `default`.
         const L = mod.default ?? mod;
-        map = L.map(el, { scrollWheelZoom: false, dragging: !L.Browser.mobile });
+        const m = L.map(el, { scrollWheelZoom: false, dragging: !L.Browser.mobile });
+        map = m;
+        // Wheel zoom switches on once the visitor clicks into (or tabs to) the map, and off again when the pointer
+        // leaves, so a page scroll that merely passes over the map still scrolls the page.
+        m.on('click focus', () => m.scrollWheelZoom.enable());
+        m.on('mouseout blur', () => m.scrollWheelZoom.disable());
         L.tileLayer(TILE_URL, { attribution: TILE_ATTRIBUTION, maxZoom: 18 }).addTo(map);
 
         const icon = L.divIcon({ className: 'lpin', html: '<span class="lpin-dot"></span>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -12] });

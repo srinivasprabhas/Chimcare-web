@@ -1,5 +1,5 @@
 import '@/styles/hub.css';
-import '@/styles/hub-booking.css';
+import '@/styles/hub-hero.css';
 import type { CSSProperties } from 'react';
 import type { NationalHubProps } from '@/lib/content/assemble-hubs';
 import { Icon } from '@/components/chrome/Icon';
@@ -42,15 +42,15 @@ export function NationalHub(p: NationalHubProps) {
                 <div><b>{p.hero.cities}</b><span>Cities listed</span></div>
                 <div><b>1989</b><span>Serving since</span></div>
               </div>
+              <div className="hero-certs">
+                <span className="lbl">MEMBERSHIPS &amp; AWARDS</span>
+                <HeroAwards />
+              </div>
             </div>
             {/* The same booking widget as the location pages; the hero's Schedule Service buttons scroll to it. */}
             <div className="book-slot">
               <BookingForm embedded options={p.booking} context={p.bookingContext} />
             </div>
-          </div>
-          <div className="hero-certs">
-            <span className="lbl">MEMBERSHIPS &amp; AWARDS</span>
-            <HeroAwards />
           </div>
         </div>
       </section>

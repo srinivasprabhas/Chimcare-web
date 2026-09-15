@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { Icon } from './Icon';
+import '@/styles/sticky-bar.css';
 
 /**
  * Mobile-only sticky Call / Book bar. CSS hides it on desktop.
