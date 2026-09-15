@@ -60,14 +60,14 @@ export function CityPage(p: CityPageProps) {
                   {p.hero.awards.length > 0 && (
                     <ul className="hero-awards">
                       {p.hero.awards.map((a) => (
-                        <li key={a.src}><img src={a.src} width={a.width} height={a.height} decoding="async" alt={a.alt} /></li>
+                        <li key={a.src}><img src={a.src} width={a.width} height={a.height} decoding="async" alt={a.alt} title={a.alt} /></li>
                       ))}
                     </ul>
                   )}
                 </div>
               )}
               <figure className="hero-figure" style={{ '--i': 7 } as CSSProperties}>
-                <img src={p.hero.image.src} width={p.hero.image.width} height={p.hero.image.height} fetchPriority="high" decoding="async" alt={p.hero.image.alt} />
+                <img src={p.hero.image.src} width={p.hero.image.width} height={p.hero.image.height} fetchPriority="high" decoding="async" alt={p.hero.image.alt} title={p.hero.image.alt} />
                 <figcaption>{p.hero.figCaption}</figcaption>
               </figure>
             </div>
@@ -98,7 +98,7 @@ export function CityPage(p: CityPageProps) {
             <div className="copy reveal">
               {p.intro.teamPhoto && (
                 <figure className="team-photo">
-                  <img src={p.intro.teamPhoto.src} width={p.intro.teamPhoto.width} height={p.intro.teamPhoto.height} loading="lazy" decoding="async" alt={p.intro.teamPhoto.alt} />
+                  <img src={p.intro.teamPhoto.src} width={p.intro.teamPhoto.width} height={p.intro.teamPhoto.height} loading="lazy" decoding="async" alt={p.intro.teamPhoto.alt} title={p.intro.teamPhoto.alt} />
                 </figure>
               )}
               {p.intro.paragraphs.map((t) => <p key={t.slice(0, 40)}>{t}</p>)}
@@ -116,7 +116,7 @@ export function CityPage(p: CityPageProps) {
               <p>{p.whyTrust.paragraph}</p>
             </div>
             <figure className="trust-art reveal">
-              <img src="/img/trust-art.webp" width={361} height={302} loading="lazy" decoding="async" alt="Local & trusted, dust-free cleaning, safety first, transparent pricing" />
+              <img src="/img/trust-art.webp" width={361} height={302} loading="lazy" decoding="async" alt="Local & trusted, dust-free cleaning, safety first, transparent pricing" title="Local & trusted, dust-free cleaning, safety first, transparent pricing" />
             </figure>
           </div>
         </div>
@@ -183,7 +183,7 @@ export function CityPage(p: CityPageProps) {
             <div className="reveal">
               {p.areas.image && (
                 <figure className="ph-img" id="ph-areas">
-                  <img src={p.areas.image.src} width={p.areas.image.width} height={p.areas.image.height} loading="lazy" decoding="async" alt={p.areas.image.alt} />
+                  <img src={p.areas.image.src} width={p.areas.image.width} height={p.areas.image.height} loading="lazy" decoding="async" alt={p.areas.image.alt} title={p.areas.image.alt} />
                 </figure>
               )}
               <h3 style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.01em', margin: '0 0 8px' }}>{p.areas.subHeading}</h3>

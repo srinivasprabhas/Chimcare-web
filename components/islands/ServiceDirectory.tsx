@@ -37,7 +37,7 @@ export function ServiceDirectory({ tiles, cards, count }: { tiles: CategoryTile[
         {tiles.map((t) => (
           <li key={t.key}>
             <button className="svc-tile" type="button" data-filter={t.key} aria-pressed={filter === t.key} onClick={() => pick(t.key)}>
-              <img src={t.src} width={600} height={450} loading="lazy" alt={t.alt} />
+              <img src={t.src} width={600} height={450} loading="lazy" alt={t.alt} title={t.alt} />
               <span className="t-label">
                 <span className="t-name">{t.name}</span>
                 <span className="t-n">

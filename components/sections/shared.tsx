@@ -44,7 +44,7 @@ export function SectionHead({
       </div>
       {figure ? (
         <figure className="ph-img" id={figureId}>
-          <img src={figure.src} width={figure.width} height={figure.height} loading="lazy" decoding="async" alt={figure.alt} />
+          <img src={figure.src} width={figure.width} height={figure.height} loading="lazy" decoding="async" alt={figure.alt} title={figure.alt} />
         </figure>
       ) : (
         lede && <p>{lede}</p>
@@ -66,7 +66,7 @@ export function HeroAwards() {
     <ul className="hero-awards">
       {AWARD_BADGES.map((a) => (
         <li key={a.src}>
-          <img src={a.src} alt={a.alt} width={a.width} height={a.height} loading="lazy" decoding="async" />
+          <img src={a.src} alt={a.alt} title={a.alt} width={a.width} height={a.height} loading="lazy" decoding="async" />
         </li>
       ))}
     </ul>
@@ -88,7 +88,7 @@ export function TrustStrip({ items, className = 'trust', awards = true }: { item
         ))}
         {awards && (
           <div className="t t-awards">
-            <img src="/img/awards.png" width={1248} height={450} loading="lazy" decoding="async" alt="National Chimney Sweep Guild member, Angie’s List Super Service Award 2020 and Angi Super Service Award 2021" />
+            <img src="/img/awards.png" width={1248} height={450} loading="lazy" decoding="async" alt="National Chimney Sweep Guild member, Angie’s List Super Service Award 2020 and Angi Super Service Award 2021" title="National Chimney Sweep Guild member, Angie’s List Super Service Award 2020 and Angi Super Service Award 2021" />
           </div>
         )}
       </div>

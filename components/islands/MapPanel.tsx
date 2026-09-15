@@ -67,7 +67,15 @@ export function MapPanel({ cards }: { cards: LocationCard[] }) {
         // leaves, so a page scroll that merely passes over the map still scrolls the page.
         m.on('click focus', () => m.scrollWheelZoom.enable());
         m.on('mouseout blur', () => m.scrollWheelZoom.disable());
-        L.tileLayer(TILE_URL, { attribution: TILE_ATTRIBUTION, maxZoom: 18 }).addTo(map);
+        // Leaflet gives every tile an empty alt and no title; label them as the map they make up.
+        const tileLabel = `Map of Chimcare locations (${pins.length})`;
+        L.tileLayer(TILE_URL, { attribution: TILE_ATTRIBUTION, maxZoom: 18 })
+          .on('tileloadstart', (e) => {
+            const tile = e.tile as HTMLImageElement;
+            tile.alt = tileLabel;
+            tile.title = tileLabel;
+          })
+          .addTo(map);
 
         const icon = L.divIcon({ className: 'lpin', html: '<span class="lpin-dot"></span>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -12] });
         for (const c of pins) {

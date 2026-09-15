@@ -115,7 +115,7 @@ export function NationalHub(p: NationalHubProps) {
           <div className="crew reveal">
             {p.crew.map((c) => (
               <div className="crew-card" key={c.title}>
-                <img className="ph-photo" loading="lazy" decoding="async" width={600} height={400} src={c.src} alt={c.alt} />
+                <img className="ph-photo" loading="lazy" decoding="async" width={600} height={400} src={c.src} alt={c.alt} title={c.alt} />
                 <div className="info"><b>{c.title}</b><span>{c.small}</span></div>
               </div>
             ))}

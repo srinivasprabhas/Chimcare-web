@@ -1026,6 +1026,7 @@ function Figure({ image, className = 'ph-img' }: { image: ImageRef; className?: 
       <img
         src={image.src}
         alt={image.alt}
+        title={image.alt || undefined}
         {...(sized ? { width: image.width as number, height: image.height as number } : {})}
         loading="lazy"
         decoding="async"
@@ -1184,6 +1185,7 @@ function Plate({ asset, className }: { asset: RefAsset; className: string }) {
       <img
         src={asset.file}
         alt={asset.alt ?? ''}
+        title={asset.alt || undefined}
         {...(sized ? { width: asset.width as number, height: asset.height as number } : {})}
         loading="lazy"
         decoding="async"
@@ -1442,6 +1444,7 @@ function ReferencePage({ view }: { view: PageView }) {
                             <img
                               src={a.file}
                               alt={a.alt ?? ''}
+                              title={a.alt || undefined}
                               {...(a.width != null && a.height != null ? { width: a.width, height: a.height } : {})}
                               loading="lazy"
                               decoding="async"
@@ -1463,6 +1466,7 @@ function ReferencePage({ view }: { view: PageView }) {
                     <img
                       src={view.heroImage.src}
                       alt={view.heroImage.alt ?? ''}
+                      title={view.heroImage.alt || undefined}
                       {...(view.heroImage.width != null && view.heroImage.height != null
                         ? { width: view.heroImage.width, height: view.heroImage.height }
                         : {})}

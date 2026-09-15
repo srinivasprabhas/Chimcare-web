@@ -19,7 +19,7 @@ export function Footer({ states }: { states: Array<{ name: string; href: string 
           <div className="ftr-cols">
             <div className="ftr-brand">
               <span className="logo-chip">
-                <img src="/img/logo.svg" alt="Chimcare" />
+                <img src="/img/logo.svg" alt="Chimcare" title="Chimcare" />
               </span>
               <p>America’s Fireplace &amp; Chimney Experts. Founded 1989 — working toward every rooftop and hearth in the country.</p>
             </div>

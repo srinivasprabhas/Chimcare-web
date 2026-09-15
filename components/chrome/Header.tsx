@@ -39,7 +39,7 @@ export function Header({
         <HeaderMenu />
         <a className="logo" href="/">
           <span className="sr-only">Chimcare home</span>
-          <img src="/img/logo.svg" alt="Chimcare" width={202} height={62} />
+          <img src="/img/logo.svg" alt="Chimcare" title="Chimcare" width={202} height={62} />
         </a>
         <div className="hdr-menu" id="hdr-menu">
           <nav className="nav" aria-label="Main">
@@ -72,11 +72,11 @@ export function Header({
               width={34}
               height={34}
               decoding="async"
-              alt={bbb.alt}
+              alt={bbb.alt} title={bbb.alt}
             />
           )}
         </div>
-        {bbb && <img className="hdr-bbb" src={bbb.src} width={bbb.width} height={bbb.height} decoding="async" alt={bbb.alt} />}
+        {bbb && <img className="hdr-bbb" src={bbb.src} width={bbb.width} height={bbb.height} decoding="async" alt={bbb.alt} title={bbb.alt} />}
         <a className="phone phone-bar" href={phoneHref}>
           <Icon name="phone" />
           {phone}

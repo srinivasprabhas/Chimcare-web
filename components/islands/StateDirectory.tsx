@@ -98,7 +98,7 @@ export function StateDirectory({
           <article className="state-card reveal" key={s.code} hidden={!visibleCodes.has(s.code)}>
             {s.photo ? (
               <div className="ph">
-                <img className="ph-photo" loading="lazy" decoding="async" src={s.photo} alt={s.photoAlt ?? `Chimney service in ${s.name}`} />
+                <img className="ph-photo" loading="lazy" decoding="async" src={s.photo} alt={s.photoAlt ?? `Chimney service in ${s.name}`} title={s.photoAlt ?? `Chimney service in ${s.name}`} />
                 {s.photoCredit && <small className="ph-credit">{s.photoCredit}</small>}
               </div>
             ) : (

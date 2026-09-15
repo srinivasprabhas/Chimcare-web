@@ -110,7 +110,7 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
             <article className={e.flip ? 'ed flip reveal' : 'ed reveal'} key={e.heading}>
               <figure>
                 <div className="ph" data-ph={e.imageAlt}>
-                  <img className="ph-photo" src={'/' + e.imageKey} alt={e.imageAlt} loading="lazy" decoding="async" />
+                  <img className="ph-photo" src={'/' + e.imageKey} alt={e.imageAlt} title={e.imageAlt} loading="lazy" decoding="async" />
                 </div>
               </figure>
               <div>
@@ -160,7 +160,7 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
           <div className="crew-grid">
             {p.crew.map((c) => (
               <div className="crew-card reveal" key={c.title}>
-                <img className="ph-photo" loading="lazy" decoding="async" width={600} height={400} src={c.src} alt={c.alt} />
+                <img className="ph-photo" loading="lazy" decoding="async" width={600} height={400} src={c.src} alt={c.alt} title={c.alt} />
                 <div className="body"><b>{c.title}</b><small>{c.small}</small></div>
               </div>
             ))}

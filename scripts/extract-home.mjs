@@ -242,6 +242,64 @@ function replaceSection(html, elementId, replacement) {
 }
 body = replaceSection(body, 'a2114d2', '');
 
+// Images: WordPress left almost every image with an empty alt and no title. Describe each one (keyed by the
+// content-hashed file name, so the text follows the image across re-extractions) and mirror alt into title.
+const IMAGE_ALT = {
+  '54492377f880.svg': 'Chimcare logo',
+  'a16ccfb978ef.webp': 'Happy Chimcare client',
+  '9edc21abf5f6.webp': 'Happy Chimcare client',
+  '86c40445a446.webp': 'Happy Chimcare client',
+  'aa73ee5961e9.webp': 'Happy Chimcare client',
+  '3c729ba95ab2.avif': 'Angi Super Service Award 2021',
+  '9597b568248b.webp': 'Angie’s List Super Service Award 2020',
+  'aabb14f6ca52.webp': 'National Chimney Sweep Guild member',
+  '6fd4c0ca0dba.jpg': 'Best quality guaranteed badge',
+  '31d08c5e5620.webp': 'Arrow icon',
+  '2c283a5f9995.jpg': 'Chimcare technician inspecting a fireplace and chimney',
+  '040b936d1160.jpg': 'Chimcare technician sweeping a chimney on a roof',
+  '2fdd5b323328.jpg': 'Chimcare mason repairing a brick chimney',
+  'c93d19a8ba40.jpg': 'New wood-burning fireplace installation',
+  '7d80b72ab542.jpg': 'Chimcare technician inspecting a gas fireplace',
+  '3cfdf4bae361.webp': 'Gas fireplace insert in a stone surround',
+  '2d14937bb204.jpg': 'Gas log set burning in a fireplace',
+  'b364b708d1c8.jpg': 'Chimcare technician fitting a chimney cap on a roof',
+  'dc1218c70755.avif': 'The Chimcare team outside Chimcare headquarters',
+  '9b357801bee4.webp': 'Illustrated map of Chimcare service locations',
+  '1f618a1e48f9.avif': '24/7 fast response icon',
+  'c5a24617bbc2.avif': 'Certified and experienced sweepers icon',
+  'a996372af3db.avif': 'Upfront pricing icon',
+  'b97952e5af62.avif': 'Satisfaction guaranteed icon',
+  '9f06dc8c9dbc.avif': 'Animal friendly icon',
+  'daee44cc24cb.avif': 'Fully equipped and prepared icon',
+  '37687c983766.avif': 'Choose chimney service icon',
+  '3c19d8371a46.avif': 'Schedule service icon',
+  '7c02322bf07d.avif': 'Job completion icon',
+  '5053d05962ed.webp': 'Trusted service badge',
+  '4b90b685a21b.webp': 'Chimcare technician with a family outside their home',
+  'daf40c335a40.webp': 'Chimcare technician cleaning a living room fireplace',
+  '42007d013473.webp': 'Chimcare technician working on a chimney',
+  '5c508ca4d57b.jpg': 'Lisa T, Chimcare customer',
+  'c1554a497df1.jpg': 'Mike, Chimcare customer',
+  '86639442f86a.jpg': 'Robert G, Chimcare customer',
+  'f74cc74bdab4.webp': 'Family gathered by their fireplace',
+};
+const escapeAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+const unlabelled = new Set();
+body = body.replace(/<img\b[^>]*>/g, (tag) => {
+  const file = tag.match(/\ssrc="\/home\/([^"]+)"/)?.[1];
+  let alt = tag.match(/\salt="([^"]*)"/)?.[1] ?? '';
+  if (!alt.trim() && file && IMAGE_ALT[file]) {
+    alt = escapeAttr(IMAGE_ALT[file]);
+    tag = /\salt="/.test(tag) ? tag.replace(/\salt="[^"]*"/, ` alt="${alt}"`) : tag.replace(/^<img\b/, `<img alt="${alt}"`);
+  }
+  if (!alt.trim()) unlabelled.add(file ?? tag.slice(0, 60));
+  else if (!(tag.match(/\stitle="([^"]*)"/)?.[1] ?? '').trim()) {
+    tag = /\stitle="/.test(tag) ? tag.replace(/\stitle="[^"]*"/, ` title="${alt}"`) : tag.replace(/^<img\b/, `<img title="${alt}"`);
+  }
+  return tag;
+});
+if (unlabelled.size) console.warn(`  ! images with no alt text (add them to IMAGE_ALT): ${[...unlabelled].join(', ')}`);
+
 // Links: this app answers `/` and `/locations/…`; everything else stays on production.
 body = body
   .replace(/href="https:\/\/www\.chimcare\.com\/#elementor-action[^"]*"/g, 'href="#request-service" data-book')

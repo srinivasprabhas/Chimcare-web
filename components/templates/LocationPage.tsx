@@ -73,7 +73,7 @@ export function LocationPage(p: LocationPageProps) {
                     {hero.awards.length > 0 && (
                       <ul className="hero-awards">
                         {hero.awards.map((a) => (
-                          <li key={a.src}><img src={a.src} width={a.width} height={a.height} decoding="async" alt={a.alt} /></li>
+                          <li key={a.src}><img src={a.src} width={a.width} height={a.height} decoding="async" alt={a.alt} title={a.alt} /></li>
                         ))}
                       </ul>
                     )}
@@ -84,7 +84,7 @@ export function LocationPage(p: LocationPageProps) {
                 )}
                 {hero.image && (
                   <figure className="hero-figure" style={{ '--i': 7 } as CSSProperties}>
-                    <img src={hero.image.src} width={hero.image.width} height={hero.image.height} fetchPriority="high" decoding="async" alt={hero.image.alt} />
+                    <img src={hero.image.src} width={hero.image.width} height={hero.image.height} fetchPriority="high" decoding="async" alt={hero.image.alt} title={hero.image.alt} />
                     {hero.figCaption && <figcaption>{hero.figCaption}</figcaption>}
                   </figure>
                 )}
@@ -120,7 +120,7 @@ export function LocationPage(p: LocationPageProps) {
                 <div className="copy reveal">
                   {p.intro.teamPhoto && (
                     <figure className="team-photo">
-                      <img src={p.intro.teamPhoto.src} width={p.intro.teamPhoto.width} height={p.intro.teamPhoto.height} loading="lazy" decoding="async" alt={p.intro.teamPhoto.alt} />
+                      <img src={p.intro.teamPhoto.src} width={p.intro.teamPhoto.width} height={p.intro.teamPhoto.height} loading="lazy" decoding="async" alt={p.intro.teamPhoto.alt} title={p.intro.teamPhoto.alt} />
                     </figure>
                   )}
                   {p.intro.paragraphs.map((t) => <p key={t.slice(0, 40)}>{t}</p>)}
@@ -141,7 +141,7 @@ export function LocationPage(p: LocationPageProps) {
                 </div>
                 {p.whyTrust.art && (
                   <figure className="trust-art reveal">
-                    <img src={p.whyTrust.art.src} width={p.whyTrust.art.width} height={p.whyTrust.art.height} loading="lazy" decoding="async" alt={p.whyTrust.art.alt} />
+                    <img src={p.whyTrust.art.src} width={p.whyTrust.art.width} height={p.whyTrust.art.height} loading="lazy" decoding="async" alt={p.whyTrust.art.alt} title={p.whyTrust.art.alt} />
                   </figure>
                 )}
               </div>
@@ -251,7 +251,7 @@ export function LocationPage(p: LocationPageProps) {
                 <div className="reveal">
                   {p.areas.image && (
                     <figure className="ph-img" id="ph-areas">
-                      <img src={p.areas.image.src} width={p.areas.image.width} height={p.areas.image.height} loading="lazy" decoding="async" alt={p.areas.image.alt} />
+                      <img src={p.areas.image.src} width={p.areas.image.width} height={p.areas.image.height} loading="lazy" decoding="async" alt={p.areas.image.alt} title={p.areas.image.alt} />
                     </figure>
                   )}
                   {p.areas.subHeading && (

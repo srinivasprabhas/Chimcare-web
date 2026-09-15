@@ -84,7 +84,7 @@ export function LocationDirectory({ cards, initialQuery = '' }: { cards: Locatio
             <div className="content-box">
               {c.href && <a className="job_listing-clickbox" href={c.href} aria-hidden="true" tabIndex={-1}></a>}
               <header className={c.photo ? 'job_listing-entry-header listing-cover has-image' : 'job_listing-entry-header listing-cover no-image'}>
-                {c.photo && <img className="ph-photo" src={c.photo.src} alt={c.photo.alt} loading="lazy" decoding="async" />}
+                {c.photo && <img className="ph-photo" src={c.photo.src} alt={c.photo.alt} title={c.photo.alt} loading="lazy" decoding="async" />}
               </header>
               <div className="body">
                 <p className="city">{c.name}{c.kind === 'coverage' ? ' · coverage' : ''}</p>
