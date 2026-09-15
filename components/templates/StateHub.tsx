@@ -56,6 +56,7 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
             <HeroAwards />
           </div>
         </div>
+        {p.imgCredit && <small className="hero-credit">{p.imgCredit}</small>}
       </section>
 
       <TrustStrip items={p.trust} className="trust" awards={false} />
@@ -71,7 +72,7 @@ export function StateHub(p: StateHubProps & { query?: string; stateSlug: string 
             {/* The map is the grid's second column on desktop, beside the cards, and leads on smaller
                 screens (state.css orders it first). It used to share the first column's wrapper, which
                 put it under every card and left the right-hand column empty. */}
-            <MapPanel cards={p.directory.cards} />
+            <MapPanel cards={p.mapCards ?? p.directory.cards} />
           </div>
         </div>
       </section>

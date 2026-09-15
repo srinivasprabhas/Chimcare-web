@@ -1,0 +1,49 @@
+/* Hand-written overrides for the generated stylesheets (tokens/base/hub/state/city.css are regenerated
+   by scripts/port-css.mjs and must not be edited). */
+
+/* ---- Sticky Call Now / Book Online ------------------------------------------------------------
+   On desktop the bar is a floating pill, bottom-centre, beside the round quick-action buttons — the
+   live site's own treatment. base.css and app/location/template.css both end with
+   `@media (min-width:901px){.sfoot{display:none}}`, which hid it on every desktop page. The selectors
+   below outrank that rule without editing either file. Phones keep the slide-in bar as it was. */
+@media (min-width: 901px) {
+  html body .sfoot {
+    display: flex;
+  }
+  html body.no-scroll .sfoot {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  /* keep the footer's last row clear of the pill */
+  html body .ftr .ftr-legal .wrap {
+    padding-bottom: 92px;
+  }
+}
+
+/* ---- Photo credits (licence attribution) -------------------------------------------------------- */
+.state-card .ph {
+  position: relative;
+}
+.ph-credit,
+.hero-credit {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  z-index: 2;
+  max-width: calc(100% - 20px);
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 10.5px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+.tpl-state .hero {
+  position: relative;
+}
+.hero-credit {
+  right: 16px;
+  bottom: 12px;
+}

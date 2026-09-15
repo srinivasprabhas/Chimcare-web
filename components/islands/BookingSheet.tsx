@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Icon } from '@/components/chrome/Icon';
 import { BookingForm } from './BookingForm';
-import type { BookingContext, ServiceKey } from '@/lib/booking/types';
+import type { BookingContext, BookingPrefill, ServiceKey } from '@/lib/booking/types';
 import type { BookingOption } from '@/lib/content/assemble';
 
 /**
@@ -16,8 +16,22 @@ export function BookingSheet({ options, context }: { options: BookingOption[]; c
   const [open, setOpen] = useState(false);
   const [service, setService] = useState<ServiceKey | null>(null);
   const [session, setSession] = useState(0);
+  const [prefill, setPrefill] = useState<BookingPrefill | undefined>();
 
   const close = useCallback(() => setOpen(false), []);
+
+  // Forms outside React (the homepage's WordPress request-service form) open the sheet with details already typed.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const detail = (e as CustomEvent<{ service?: ServiceKey | null; prefill?: BookingPrefill }>).detail ?? {};
+      setService(detail.service ?? null);
+      setPrefill(detail.prefill);
+      setSession((n) => n + 1);
+      setOpen(true);
+    };
+    document.addEventListener('chimcare:open-booking', onOpen);
+    return () => document.removeEventListener('chimcare:open-booking', onOpen);
+  }, []);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -32,6 +46,7 @@ export function BookingSheet({ options, context }: { options: BookingOption[]; c
         return;
       }
       setService(svc);
+      setPrefill(undefined);
       setSession((n) => n + 1);
       setOpen(true);
     };
@@ -56,7 +71,7 @@ export function BookingSheet({ options, context }: { options: BookingOption[]; c
           <p className="eyebrow">{context.label}</p>
           <button className="drawer-close" type="button" aria-label="Close" onClick={close}><Icon name="x" /></button>
         </div>
-        <div id="book-mount-sheet">{open && <BookingForm key={session} options={options} context={context} initialService={service} onClose={close} />}</div>
+        <div id="book-mount-sheet">{open && <BookingForm key={session} options={options} context={context} initialService={service} initialValues={prefill} onClose={close} />}</div>
       </div>
     </div>
   );

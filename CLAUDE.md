@@ -44,8 +44,8 @@ data/seed            minnesota.ts (reads minnesota.generated.json + minnesota-lo
 ## Test matrix (all should hold after any change)
 | URL | Expect |
 |---|---|
-| `/locations/` | 200, one MN state card from the DB |
-| `/locations/mn/` | 200, one card per city; 14 branch cards with a street address, coverage cities "Page in review" unless complete |
+| `/locations/` | 200, one state card per state with migrated URLs (7: MA AZ IL MN OH GA WI), from `data/routes.sqlite`; footer lists the same states |
+| `/locations/{st}/` | 200, exactly one card per migrated URL (MA 885, AZ 22, IL 16, MN 14, OH 12, GA 10, WI 5; `-2`/`-3` duplicates not listed); every card links to a live page. Unknown state → 404 |
 | `/location/chimney-sweep-fireplace-in-minneapolis-mn/` | 200 branch city: 120 South 6th St, 612-509-9564, $299/$69/$49, 92 cards (linked where the URL is live), `HomeAndConstructionBusiness` |
 | `/location/chimney-sweep-repair-in-bloomington-mn/` | 200 coverage city: no street address, areas from the live page, `Service` schema |
 | `/location/chimney-crown-sealing-in-minneapolis-mn/` | 200 service page, "Repair Quote" preselected |

@@ -1,5 +1,3 @@
-import type { State } from '@/lib/db/schema';
-
 const SERVICES = [
   'Chimney Sweep & Cleaning',
   'Chimney & Fireplace Inspection',
@@ -13,7 +11,7 @@ const SERVICES = [
   'Animal-Safe Chimney Clearing',
 ];
 
-export function Footer({ states }: { states: State[] }) {
+export function Footer({ states }: { states: Array<{ name: string; href: string }> }) {
   return (
     <footer className="ftr">
       <div className="ftr-main">
@@ -38,7 +36,11 @@ export function Footer({ states }: { states: State[] }) {
             <div className="ftr-col">
               <h4>States served</h4>
               <div className="ftr-links two">
-                {states.map((s) => (s.verified ? <a key={s.code} href={`/locations/${s.slug}/`}>{s.name}</a> : <a key={s.code} href="/locations/#states">{s.name}</a>))}
+                {states.map((s) => (
+                  <a key={s.href} href={s.href}>
+                    {s.name}
+                  </a>
+                ))}
               </div>
               <p className="ftr-more">…and growing</p>
             </div>

@@ -1,0 +1,372 @@
+{
+  "az/mesa": {
+    "lat": 33.4151,
+    "lng": -111.83146,
+    "query": "Mesa, AZ"
+  },
+  "az/phoenix": {
+    "lat": 33.44844,
+    "lng": -112.07414,
+    "query": "Phoenix, AZ"
+  },
+  "ga/alpharetta": {
+    "lat": 34.08832,
+    "lng": -84.26933,
+    "query": "12600 Deerfield Parkway, Alpharetta, GA 30004"
+  },
+  "ga/atlanta": {
+    "lat": 33.79194,
+    "lng": -84.38636,
+    "query": "1372 Peachtree St NE, Atlanta, GA 30309"
+  },
+  "ga/cumming": {
+    "lat": 34.1525,
+    "lng": -84.17634,
+    "query": "410 Peachtree Parkway, Cumming, GA 30041"
+  },
+  "ga/decatur": {
+    "lat": 33.77376,
+    "lng": -84.29607,
+    "query": "Decatur, DeKalb County, Georgia"
+  },
+  "ga/kennesaw": {
+    "lat": 34.02343,
+    "lng": -84.61549,
+    "query": "Kennesaw, GA"
+  },
+  "ga/lawrenceville": {
+    "lat": 33.95664,
+    "lng": -83.98901,
+    "query": "Lawrenceville, GA"
+  },
+  "ga/marietta": {
+    "lat": 33.91329,
+    "lng": -84.466,
+    "query": "1640 Powers Ferry Rd SE, Marietta, GA 30067"
+  },
+  "ga/ne-atlanta": {
+    "lat": 33.79612,
+    "lng": -84.37135,
+    "query": "NE Atlanta, GA"
+  },
+  "ga/norcross": {
+    "lat": 33.94121,
+    "lng": -84.21353,
+    "query": "Norcross, GA"
+  },
+  "ga/north-atlanta": {
+    "lat": 33.8651,
+    "lng": -84.33659,
+    "query": "North Atlanta, GA"
+  },
+  "il/buffalo-grove": {
+    "lat": 42.17169,
+    "lng": -87.92823,
+    "query": "1450 Busch Pkwy Buffalo Grove, IL 60089"
+  },
+  "il/burr-ridge": {
+    "lat": 41.75628,
+    "lng": -87.91161,
+    "query": "1333 Burr Ridge Pkwy Burr Ridge, IL 60527"
+  },
+  "il/chicago": {
+    "lat": 41.89244,
+    "lng": -87.63599,
+    "query": "320 W Ohio St Chicago, IL 60654"
+  },
+  "il/glenview": {
+    "lat": 42.10476,
+    "lng": -87.82467,
+    "query": "2700 Patriot Blvd Glenview, IL 60026"
+  },
+  "il/hoffman-estates": {
+    "lat": 42.07272,
+    "lng": -88.19723,
+    "query": "2815 Forbs Ave Hoffman Estates, IL 60192"
+  },
+  "il/lake-forest": {
+    "lat": 42.23862,
+    "lng": -87.89892,
+    "query": "100 Saunders Rd Lake Forest, IL 60045"
+  },
+  "il/naperville": {
+    "lat": 41.76704,
+    "lng": -88.14858,
+    "query": "640 S Washington St Naperville, IL 60540"
+  },
+  "il/northbrook": {
+    "lat": 42.15238,
+    "lng": -87.80634,
+    "query": "5 Revere Dr Northbrook, IL 60062"
+  },
+  "il/oak-brook": {
+    "lat": 41.8507,
+    "lng": -87.94032,
+    "query": "700 Commerce Dr Oak Brook, IL 60523"
+  },
+  "il/oak-park": {
+    "lat": 41.88889,
+    "lng": -87.80101,
+    "query": "1010 Lake St Oak Park, IL 60301"
+  },
+  "il/schaumburg": {
+    "lat": 42.02612,
+    "lng": -88.03243,
+    "query": "10 N Martingale Rd Schaumburg, IL 60173"
+  },
+  "il/skokie": {
+    "lat": 42.06329,
+    "lng": -87.75843,
+    "query": "5250 Old Orchard Rd Skokie, IL 60077"
+  },
+  "il/st-charles": {
+    "lat": 41.91231,
+    "lng": -88.3144,
+    "query": "100 Illinois St, IL 60174"
+  },
+  "il/vernon-hills": {
+    "lat": 42.23617,
+    "lng": -87.94857,
+    "query": "544 Lakeview Pkwy Vernon Hills, IL 60061"
+  },
+  "il/westmont": {
+    "lat": 41.818,
+    "lng": -87.95411,
+    "query": "999 Oakmont Plaza Drive, Westmont, 60559"
+  },
+  "il/wheaton": {
+    "lat": 41.8647,
+    "lng": -88.11017,
+    "query": "Wheaton, IL"
+  },
+  "ma/boston": {
+    "lat": 42.35321,
+    "lng": -71.04533,
+    "query": "1 Marina Park Drive"
+  },
+  "ma/brookline": {
+    "lat": 42.34247,
+    "lng": -71.12085,
+    "query": "1309 Beacon Street, Brookline"
+  },
+  "ma/burlington": {
+    "lat": 42.48507,
+    "lng": -71.20878,
+    "query": "1500 District Avenue, Burlington"
+  },
+  "ma/cambridge": {
+    "lat": 42.37346,
+    "lng": -71.12256,
+    "query": "1 Mifflin Place, Cambridge"
+  },
+  "ma/dracut": {
+    "lat": 42.66882,
+    "lng": -71.30337,
+    "query": "Dracut, MA"
+  },
+  "ma/eastham": {
+    "lat": 41.83059,
+    "lng": -69.97405,
+    "query": "Eastham, MA"
+  },
+  "ma/lee": {
+    "lat": 42.30735,
+    "lng": -73.25049,
+    "query": "Lee, MA"
+  },
+  "ma/leominster": {
+    "lat": 42.52674,
+    "lng": -71.76149,
+    "query": "Leominster, MA"
+  },
+  "ma/lowell": {
+    "lat": 42.64144,
+    "lng": -71.30853,
+    "query": "Lowell, MA"
+  },
+  "ma/milton": {
+    "lat": 42.27696,
+    "lng": -71.0517,
+    "query": "2 Granite Avenue, Milton"
+  },
+  "ma/newton": {
+    "lat": 42.33936,
+    "lng": -71.25408,
+    "query": "275 Grove Street, Newton"
+  },
+  "ma/peabody": {
+    "lat": 42.52102,
+    "lng": -70.96634,
+    "query": "9 Centennial Drive, Peabody"
+  },
+  "ma/springfield": {
+    "lat": 42.10188,
+    "lng": -72.58867,
+    "query": "Springfield, MA"
+  },
+  "ma/weymouth": {
+    "lat": 42.22122,
+    "lng": -70.93916,
+    "query": "Weymouth, MA"
+  },
+  "ma/worcester": {
+    "lat": 42.26256,
+    "lng": -71.80189,
+    "query": "Worcester, MA"
+  },
+  "mn/apple-valley": {
+    "lat": 44.73464,
+    "lng": -93.22125,
+    "query": "14870 Granada Ave, Apple Valley, MN 55124"
+  },
+  "mn/eagan": {
+    "lat": 44.86058,
+    "lng": -93.13281,
+    "query": "860 Blue Gentian Rd, Eagan, MN 55121"
+  },
+  "mn/eden-prairie": {
+    "lat": 44.88755,
+    "lng": -93.42012,
+    "query": "6385 Old Shady Oak Rd Eden Prairie, MN 55344"
+  },
+  "mn/edina": {
+    "lat": 44.90795,
+    "lng": -93.35467,
+    "query": "5201 Eden Ave Edina, MN 55436"
+  },
+  "mn/lake-elmo": {
+    "lat": 44.95257,
+    "lng": -92.92957,
+    "query": "8530 Eagle Point Blvd Lake Elmo, MN 55042"
+  },
+  "mn/lakeville": {
+    "lat": 44.64919,
+    "lng": -93.24292,
+    "query": "20731 Holyoke Ave Lakeville, MN 55044"
+  },
+  "mn/maple-grove": {
+    "lat": 45.09407,
+    "lng": -93.42657,
+    "query": "11670 Fountains Dr Maple Grove, MN 55369"
+  },
+  "mn/maplewood": {
+    "lat": 45.03228,
+    "lng": -93.01628,
+    "query": "3000 White Bear Ave, MN 55109"
+  },
+  "mn/minneapolis": {
+    "lat": 44.9773,
+    "lng": -93.26547,
+    "query": "Minneapolis, MN"
+  },
+  "mn/north-minneapolis": {
+    "lat": 45.07485,
+    "lng": -93.32963,
+    "query": "Brooklyn Center, Minnesota"
+  },
+  "mn/south-minneapolis": {
+    "lat": 44.9819,
+    "lng": -93.26862,
+    "query": "7825 Washington Ave S Minneapolis, MN 55439"
+  },
+  "mn/st-paul": {
+    "lat": 44.94848,
+    "lng": -93.09379,
+    "query": "445 Minnesota St Saint Paul, MN 55101"
+  },
+  "mn/wayzata": {
+    "lat": 44.97076,
+    "lng": -93.51195,
+    "query": "Wayzata, MN"
+  },
+  "mn/west-minneapolis": {
+    "lat": 44.96163,
+    "lng": -93.26948,
+    "query": "West Minneapolis, MN"
+  },
+  "oh/akron": {
+    "lat": 41.07444,
+    "lng": -81.52386,
+    "query": "388 S Main St Akron, OH 44311"
+  },
+  "oh/beachwood": {
+    "lat": 41.45629,
+    "lng": -81.493,
+    "query": "2000 Auburn Dr Beachwood, OH 44122"
+  },
+  "oh/central-cleveland": {
+    "lat": 41.50783,
+    "lng": -81.62457,
+    "query": "1300 E Ninth St Cleveland, OH 44114"
+  },
+  "oh/columbus": {
+    "lat": 39.98097,
+    "lng": -82.99474,
+    "query": "350 E First Ave Columbus, OH 43201"
+  },
+  "oh/dublin": {
+    "lat": 40.09335,
+    "lng": -83.12917,
+    "query": "545 Metro Pl S Dublin, OH 43017"
+  },
+  "oh/euclid": {
+    "lat": 41.59017,
+    "lng": -81.49814,
+    "query": "26250 Euclid Ave Euclid, OH 44132"
+  },
+  "oh/independence": {
+    "lat": 41.38166,
+    "lng": -81.64069,
+    "query": "Independence, OH"
+  },
+  "oh/northeast-columbus": {
+    "lat": 40.05628,
+    "lng": -82.88796,
+    "query": "4285 Morse Rd Columbus, OH 43230"
+  },
+  "oh/southwest-cleveland": {
+    "lat": 41.36144,
+    "lng": -81.81291,
+    "query": "Middleburg Heights, Ohio"
+  },
+  "oh/west-columbus": {
+    "lat": 39.98122,
+    "lng": -83.15076,
+    "query": "West Columbus, OH"
+  },
+  "oh/westerville": {
+    "lat": 40.13984,
+    "lng": -82.96429,
+    "query": "470 Olde Worthington Rd Westerville, OH 43082"
+  },
+  "oh/westlake": {
+    "lat": 41.45958,
+    "lng": -81.95309,
+    "query": "159 Crocker Park Blvd Westlake, OH 44145"
+  },
+  "wi/brookfield": {
+    "lat": 43.03064,
+    "lng": -88.07922,
+    "query": "120 Bishops Way, Brookfield, 53005"
+  },
+  "wi/milwaukee": {
+    "lat": 43.0488,
+    "lng": -87.91017,
+    "query": "1433 N Water St, Milwaukee, WI 53202"
+  },
+  "wi/northeast-milwaukee": {
+    "lat": 43.11904,
+    "lng": -87.9157,
+    "query": "500 W Silver Spring Dr, Milwaukee, WI 53217"
+  },
+  "wi/northwest-milwaukee": {
+    "lat": 43.15244,
+    "lng": -88.05402,
+    "query": "11414 W Park Pl, Milwaukee, WI 53224"
+  },
+  "wi/southwest-milwaukee": {
+    "lat": 42.95581,
+    "lng": -88.00771,
+    "query": "4848 S 76th St, Milwaukee, WI 53220"
+  }
+}

@@ -2,22 +2,33 @@ import 'leaflet/dist/leaflet.css';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { StateHub } from '@/components/templates/StateHub';
-import { assembleStateHub } from '@/lib/content/assemble-hubs';
+import { assembleStateHub, genericHubState, hubStateFromRow } from '@/lib/content/assemble-hubs';
 import { SEARCH_ENABLED } from '@/lib/content/search';
+import { getMigratedState } from '@/lib/data/migrated-locations';
 import { getPrices } from '@/lib/data/pricing';
-import { getCitiesForState, getStateBySlug } from '@/lib/data/states';
+import { getBranchesForState, getStateBySlug } from '@/lib/data/states';
 
 export const dynamic = 'force-dynamic';
 
 type Params = Promise<{ state: string }>;
 type Search = Promise<{ q?: string }>;
 
+/**
+ * A state hub exists for every state with migrated URLs, and lists exactly those URLs. A state with a
+ * reviewed `site.states` row (Minnesota) keeps its own editorial copy and regional prices; the others
+ * get brand copy with their own name and cities filled in.
+ */
 async function load(slug: string) {
-  const state = await getStateBySlug(slug);
-  if (!state || !state.verified) return null; // unverified states have no hub page yet
-  const listings = await getCitiesForState(state.id);
-  const prices = await getPrices(listings.find((l) => l.branch)?.branch?.regionId ?? null);
-  return assembleStateHub({ state, listings, prices });
+  const migrated = getMigratedState(slug);
+  if (!migrated) return null;
+  const row = await getStateBySlug(slug);
+  if (row?.verified) {
+    const branches = await getBranchesForState(row.id);
+    const prices = await getPrices(branches.find((b) => b.regionId != null)?.regionId ?? null);
+    return assembleStateHub({ state: hubStateFromRow(row, prices, migrated), migrated, prices, localPrices: !prices.isDefault });
+  }
+  const prices = await getPrices(null);
+  return assembleStateHub({ state: genericHubState(migrated), migrated, prices, localPrices: false });
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {

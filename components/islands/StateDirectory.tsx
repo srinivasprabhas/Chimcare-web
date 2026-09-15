@@ -97,7 +97,10 @@ export function StateDirectory({
         {cards.map((s) => (
           <article className="state-card reveal" key={s.code} hidden={!visibleCodes.has(s.code)}>
             {s.photo ? (
-              <div className="ph"><img className="ph-photo" loading="lazy" decoding="async" src={s.photo} alt={`Chimney service in ${s.name}`} /></div>
+              <div className="ph">
+                <img className="ph-photo" loading="lazy" decoding="async" src={s.photo} alt={s.photoAlt ?? `Chimney service in ${s.name}`} />
+                {s.photoCredit && <small className="ph-credit">{s.photoCredit}</small>}
+              </div>
             ) : (
               <div className="ph ph-plain"><span className="ph-plain-name">{s.name}</span><span className="ph-plain-note">Local photo to come</span></div>
             )}

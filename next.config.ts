@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   // here is what puts it in the function's filesystem.
   outputFileTracingIncludes: {
     '/location/[slug]': ['./data/routes.sqlite'],
+    // The footer (on every page) and the location hubs list the migrated routes and their map pins.
+    '/*': ['./data/routes.sqlite', './data/migrated-geocode.json'],
   },
 };
 

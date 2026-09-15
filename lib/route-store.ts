@@ -181,6 +181,59 @@ export function readRedirect(slug: string): string | null {
   }
 }
 
+/** The fields a directory card needs from one route — everything but the block stream. */
+export type RouteSummary = {
+  slug: string;
+  url: string;
+  title: string | null;
+  phone: string | null;
+  jobLocation: string | null;
+  heroImage: { src: string; alt: string; width: number | null; height: number | null } | null;
+};
+
+/** Built at most once per version of the store file, like the handle itself. */
+let summaries: { stamp: string; rows: RouteSummary[] } | null = null;
+
+const str = (v: unknown): string | null => (typeof v === 'string' && v.trim() !== '' ? v : null);
+const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+
+/**
+ * Every route the store holds, reduced to what the location hubs and the footer list. This reads
+ * the whole table, so it is cached against the file's stamp: one scan per deployed store, not one
+ * per request. The same failure policy as the rest of this module — no store means no rows.
+ */
+export function listRouteSummaries(): RouteSummary[] {
+  try {
+    const live = open();
+    if (!live) return [];
+    if (summaries?.stamp === live.stamp) return summaries.rows;
+    const raw = live.db.prepare('SELECT slug, payload FROM routes ORDER BY slug').all() as Array<{ slug: string; payload: unknown }>;
+    const rows = raw.flatMap((r): RouteSummary[] => {
+      if (!(r.payload instanceof Uint8Array)) return [];
+      try {
+        const p = JSON.parse(inflateSync(r.payload).toString('utf8')) as Record<string, unknown>;
+        const hero = p.heroImage && typeof p.heroImage === 'object' ? (p.heroImage as Record<string, unknown>) : null;
+        const heroSrc = str(hero?.src);
+        return [{
+          slug: r.slug,
+          url: str(p.url) ?? `/location/${r.slug}/`,
+          title: str(p.title),
+          phone: str(p.phone),
+          jobLocation: str(p.jobLocation),
+          heroImage: heroSrc ? { src: heroSrc, alt: str(hero?.alt) ?? '', width: num(hero?.width), height: num(hero?.height) } : null,
+        }];
+      } catch {
+        return []; // one corrupt row costs that row, not the list
+      }
+    });
+    summaries = { stamp: live.stamp, rows };
+    return rows;
+  } catch (err) {
+    warnOnce(storePath() ?? 'route-store', '', err, 'route-store');
+    return [];
+  }
+}
+
 /**
  * Every slug the store holds, for prerendering at build time.
  *

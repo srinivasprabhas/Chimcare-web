@@ -1,0 +1,59 @@
+/* =====================================================================
+   Hand-written corrections for the ported homepage (`home.css` is generated
+   by scripts/extract-home.mjs and must not be edited).
+
+   1. The saved page has its own Elementor header and no app header or mobile
+      Call/Book bar, so the layout's versions are hidden while the homepage
+      is on screen. The app footer stays: the saved page carries it.
+   2. The app's global reset (styles/base.css) zeroes margins, list styles and
+      image display on bare elements. WordPress's CSS was written against
+      browser defaults, so inside `.wp-home` those properties go back to the
+      user-agent value. `:where()` keeps these at the lowest specificity, so
+      every scoped WordPress rule still wins.
+   3. Elementor's JS-driven sticky "Why choose" column becomes CSS sticky.
+   ===================================================================== */
+
+/* 1 */
+body:has(> .wp-home) > .hdr,
+body:has(> .wp-home) > #sfoot {
+  display: none;
+}
+
+/* 2 */
+:where(.wp-home) {
+  display: block;
+  font-size: 16px;
+  line-height: normal;
+  color: CanvasText;
+  -webkit-font-smoothing: auto;
+}
+.wp-home :where(img) {
+  display: revert;
+}
+.wp-home :where(h1, h2, h3, h4, p, ul, ol) {
+  margin: revert;
+  line-height: revert;
+  font-family: revert;
+  font-weight: revert;
+  text-wrap: revert;
+}
+.wp-home :where(ul, ol) {
+  padding: revert;
+  list-style: revert;
+}
+.wp-home :where(button) {
+  font: revert;
+  cursor: revert;
+}
+.wp-home :where(a) {
+  color: revert;
+}
+
+/* 3 */
+@media (min-width: 1025px) {
+  .wp-home .elementor-element-176954d {
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+  }
+}

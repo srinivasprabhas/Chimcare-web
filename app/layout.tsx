@@ -4,13 +4,14 @@ import { Header } from '@/components/chrome/Header';
 import { Footer } from '@/components/chrome/Footer';
 import { StickyBar } from '@/components/chrome/StickyBar';
 import { Reveal } from '@/components/islands/Reveal';
-import { getStates } from '@/lib/data/states';
+import { getMigratedStates } from '@/lib/data/migrated-locations';
 import { DESIGN } from '@/lib/content/design-assets';
 
 const NATIONAL_PHONE = '1-800-362-4840';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const states = await getStates();
+  // The footer lists every state that has migrated location pages, each linked to its hub.
+  const states = getMigratedStates().map((s) => ({ name: s.name, href: `/locations/${s.slug}/` }));
   return (
     <html lang="en">
       <body>
