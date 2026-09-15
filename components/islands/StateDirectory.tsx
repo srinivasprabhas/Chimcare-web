@@ -108,16 +108,6 @@ export function StateDirectory({
             <div className="body">
               <h3>{s.href ? <a href={s.href}>{s.name}</a> : s.name}</h3>
               <p className="desc">{s.blurb}</p>
-              <div className="cities">
-                {s.verified ? (
-                  <>
-                    {s.cities.slice(0, 4).map((c) => <span key={c}>{c}</span>)}
-                    {s.cities.length > 4 && <span className="more">+{s.cities.length - 4} more</span>}
-                  </>
-                ) : (
-                  <span className="more">Cities to be confirmed</span>
-                )}
-              </div>
             </div>
           </article>
         ))}

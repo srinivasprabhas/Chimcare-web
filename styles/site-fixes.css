@@ -29,6 +29,10 @@
 .tpl-state div.dir-more {
   margin-bottom: 36px;
 }
+/* With every state card shown the "Load more" row is hidden, so the last card sat on the rule too. */
+.tpl-hub .dirlist {
+  margin-top: 48px;
+}
 .tpl-hub .dirlist .chips-head,
 .tpl-state .dirlist .chips-head {
   display: grid;
