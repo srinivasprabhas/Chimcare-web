@@ -20,23 +20,35 @@ import '@/styles/sticky-bar.css';
  * Pages with no hero have nothing to hide behind, so the bar appears after
  * roughly one viewport of scrolling. That keeps it off the first screen, which is the point of the
  * rule, without making it unreachable on a page the reference never covered.
+ *
+ * It hides again once the footer scrolls into view: the footer carries its own phone and links, and the
+ * bar would otherwise sit over them.
  */
 export function StickyBar({ phoneHref }: { phoneHref: string }) {
   useEffect(() => {
     const bar = document.getElementById('sfoot');
     if (!bar) return;
     const hero = document.getElementById('o1-hero');
+    const footer = document.querySelector('footer.ftr') ?? document.querySelector('footer');
 
     let last = 0;
     const update = () => {
       const past = hero
         ? hero.getBoundingClientRect().bottom <= 0
         : window.scrollY > window.innerHeight;
-      bar.classList.toggle('is-on', past);
+      const inFooter = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
+      bar.classList.toggle('is-on', past && !inFooter);
     };
+    // The reference's own 60ms throttle, plus a trailing read: a scroll that ends inside the window (a jump
+    // to an anchor, or the homepage's sticky header nudging the page) must still leave the bar right.
+    let trailing: number | undefined;
     const onScroll = () => {
       const now = Date.now();
-      if (now - last < 60) return; // the reference's own throttle
+      window.clearTimeout(trailing);
+      if (now - last < 60) {
+        trailing = window.setTimeout(onScroll, 60 - (now - last));
+        return;
+      }
       last = now;
       update();
     };
@@ -47,6 +59,7 @@ export function StickyBar({ phoneHref }: { phoneHref: string }) {
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      window.clearTimeout(trailing);
     };
   }, []);
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import type { BookingPrefill, ServiceKey } from '@/lib/booking/types';
 
 /**
  * The homepage is WordPress/Elementor markup rendered verbatim (app/_home/content.ts), with every WordPress
@@ -11,11 +12,22 @@ import { useEffect } from 'react';
  *   - FAQ accordion (one item open at a time, as Elementor does)
  *   - counters counting up when they scroll into view
  *   - the US map tooltip (the saved page's own `chimcare-map-tip` script, ported)
+ *   - the Gravity Forms "Request Service" form → opens the app booking sheet, prefilled
  *   - the location search → the locations hub
  *
  * Content never depends on this running: with no JS the page shows the same text, counters show their
  * final values and the first FAQ answer is open.
  */
+
+// Gravity Forms option text → booking service. Order matters: "Chimney Sweep + Inspection" is a sweep.
+const SERVICE_BY_OPTION: [RegExp, ServiceKey][] = [
+  [/sweep/i, 'sweep'],
+  [/gas/i, 'gas'],
+  [/inspection/i, 'inspect'],
+  [/quote/i, 'quote'],
+];
+export const serviceFromOption = (option: string): ServiceKey | null =>
+  SERVICE_BY_OPTION.find(([re]) => re.test(option))?.[1] ?? null;
 
 export function HomeBehaviour() {
   useEffect(() => {
@@ -43,10 +55,33 @@ export function HomeBehaviour() {
           dropdown.style.setProperty('--menu-height', on ? `${dropdown.scrollHeight}px` : '0');
         }
       };
-      const flip = () => set(!toggle.classList.contains('elementor-active'));
+      // The dropdown is `position: fixed` (a saved theme rule); overrides.css reads `--cc-menu-top` so the
+      // panel opens just under the white header card instead of on top of it, and follows the card when the
+      // sticky header moves.
+      const card = toggle.closest<HTMLElement>('.elementor-sticky') ?? toggle.closest<HTMLElement>('section');
+      const isOpen = () => toggle.classList.contains('elementor-active');
+      const place = () => {
+        if (dropdown && card) dropdown.style.setProperty('--cc-menu-top', `${Math.round(card.getBoundingClientRect().bottom + 8)}px`);
+      };
+      const flip = () => {
+        place();
+        set(!isOpen());
+      };
       toggle.addEventListener('click', flip, { signal });
       onKeyActivate(toggle, flip);
       dropdown?.addEventListener('click', (e) => (e.target as HTMLElement).closest('a') && set(false), { signal });
+      window.addEventListener('scroll', () => isOpen() && place(), { passive: true, signal });
+      window.addEventListener('resize', () => isOpen() && place(), { signal });
+      document.addEventListener('click', (e) => {
+        const t = e.target as Node;
+        if (isOpen() && !toggle.contains(t) && !dropdown?.contains(t)) set(false);
+      }, { signal });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen()) {
+          set(false);
+          toggle.focus();
+        }
+      }, { signal });
     });
 
     // ---- sticky header ------------------------------------------------------------------------
@@ -143,6 +178,81 @@ export function HomeBehaviour() {
       });
     }
 
+    // ---- testimonials slider (phones) ---------------------------------------------------------
+    // overrides.css turns the three cards into a horizontal snap track below 768px; this adds the dots and
+    // advances one review every few seconds. It pauses while the visitor touches or focuses it, while it is
+    // off screen or the tab is hidden, and never auto-advances under prefers-reduced-motion.
+    const track = root.querySelector<HTMLElement>('.elementor-element-92bd501 > .elementor-container');
+    const slides = track ? Array.from(track.children).filter((c) => c.classList.contains('elementor-column')) : [];
+    if (track && slides.length > 1) {
+      const phone = window.matchMedia('(max-width: 767px)');
+      const dots = document.createElement('div');
+      dots.className = 'cc-testi-dots';
+      dots.setAttribute('role', 'group');
+      dots.setAttribute('aria-label', 'Choose a review');
+      const current = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+      const go = (i: number) => track.scrollTo({ left: i * track.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
+      const buttons = slides.map((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Show review ${i + 1} of ${slides.length}`);
+        b.addEventListener('click', () => {
+          go(i);
+          start();
+        }, { signal });
+        dots.append(b);
+        return b;
+      });
+      track.after(dots);
+      const mark = () => {
+        const i = current();
+        buttons.forEach((b, n) => b.setAttribute('aria-current', String(n === i)));
+      };
+      let frame = 0;
+      track.addEventListener('scroll', () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(mark);
+      }, { passive: true, signal });
+      mark();
+
+      let timer: number | undefined;
+      let held = false;
+      let onScreen = false;
+      const stop = () => {
+        window.clearInterval(timer);
+        timer = undefined;
+      };
+      const start = () => {
+        stop();
+        if (!phone.matches || reduceMotion || held || !onScreen || document.hidden) return;
+        timer = window.setInterval(() => go((current() + 1) % slides.length), 4500);
+      };
+      const hold = (on: boolean) => () => {
+        held = on;
+        start();
+      };
+      track.addEventListener('pointerdown', hold(true), { signal });
+      track.addEventListener('pointerup', hold(false), { signal });
+      track.addEventListener('pointercancel', hold(false), { signal });
+      root.querySelector('.elementor-element-3ec657d')?.addEventListener('focusin', hold(true), { signal });
+      root.querySelector('.elementor-element-3ec657d')?.addEventListener('focusout', hold(false), { signal });
+      document.addEventListener('visibilitychange', start, { signal });
+      phone.addEventListener('change', () => {
+        if (!phone.matches) track.scrollLeft = 0;
+        start();
+      }, { signal });
+      const seen = new IntersectionObserver(([en]) => {
+        onScreen = en.isIntersecting;
+        start();
+      }, { threshold: 0.5 });
+      seen.observe(track);
+      cleanups.push(() => {
+        stop();
+        seen.disconnect();
+        dots.remove();
+      });
+    }
+
     // ---- US map tooltip -----------------------------------------------------------------------
     const map = root.querySelector<HTMLElement>('.cc-usmap');
     const tip = map?.querySelector<HTMLElement>('.cc-tip');
@@ -199,6 +309,23 @@ export function HomeBehaviour() {
       map.addEventListener('focusout', hide, { signal });
       document.addEventListener('keydown', (e) => e.key === 'Escape' && hide(), { signal });
     }
+
+    // ---- request-service form → booking sheet -------------------------------------------------
+    const form = root.querySelector<HTMLFormElement>('#gform_24');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const value = (selector: string) => form.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value.trim() ?? '';
+      if (value('#field_24_8 input')) return; // Gravity Forms honeypot
+      const option = value('select');
+      const service = serviceFromOption(option);
+      const prefill: BookingPrefill = {
+        name: value('input[placeholder^="Name"]'),
+        email: value('input[type="email"]'),
+        phone: value('input[placeholder^="Phone"]'),
+        zip: value('input[placeholder^="Zip"]'),
+      };
+      document.dispatchEvent(new CustomEvent('chimcare:open-booking', { detail: { service, prefill } }));
+    }, { signal });
 
     // ---- location search → locations hub ------------------------------------------------------
     root.querySelectorAll<HTMLFormElement>('.e-search-form').forEach((search) => {

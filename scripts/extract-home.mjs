@@ -1,6 +1,6 @@
 // Lifts the live chimcare.com homepage, saved as one self-contained HTML file, into the app.
 //
-//   node scripts/extract-home.mjs [path/to/home.html]      (default: ../home.html)
+//   node scripts/extract-home.mjs [path/to/home.html]      (default: ../../home (1).html)
 //
 // Writes:
 //   app/_home/content.ts   the page body (the Elementor document inside <main>), body classes, head meta, Yoast graph
@@ -28,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const src = path.resolve(process.argv[2] ?? path.join(root, '..', 'home.html'));
+const src = path.resolve(process.argv[2] ?? path.join(root, '..', '..', 'home (1).html'));
 const outDir = path.join(root, 'app', '_home');
 const assetDir = path.join(root, 'public', 'home');
 const SCOPE = '.wp-home';
@@ -226,21 +226,8 @@ body = body
   .replace(/(class="[^"]*?)\s*\belementor-invisible\b/g, '$1');
 body = externaliseDataUris(body);
 
-// The hero's Gravity Forms "Request Service" strip is removed: it posts to WordPress, and the homepage has no inline
-// form. The phone-only "Request service" button stays and opens the app booking sheet (data-book).
-function replaceSection(html, elementId, replacement) {
-  const start = html.indexOf(`<section class="elementor-section elementor-inner-section elementor-element elementor-element-${elementId} `);
-  if (start < 0) throw new Error(`section ${elementId} not found`);
-  const tag = /<(\/?)section\b[^>]*>/g;
-  tag.lastIndex = start;
-  let depth = 0, m;
-  while ((m = tag.exec(html))) {
-    depth += m[1] ? -1 : 1;
-    if (depth === 0) return html.slice(0, start) + replacement + html.slice(tag.lastIndex);
-  }
-  throw new Error(`section ${elementId} is not closed`);
-}
-body = replaceSection(body, 'a2114d2', '');
+// The hero's Gravity Forms "Request Service" strip is kept exactly as saved. It no longer posts to WordPress:
+// HomeBehaviour opens the app booking sheet with the typed details instead (see the gform_24 action below).
 
 // Images: WordPress left almost every image with an empty alt and no title. Describe each one (keyed by the
 // content-hashed file name, so the text follows the image across re-extractions) and mirror alt into title.

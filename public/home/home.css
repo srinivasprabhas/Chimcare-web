@@ -11932,8 +11932,8 @@ width: 20px;
   .wp-home .ser-box > .elementor-widget-wrap > .elementor-widget-text-editor{min-height:0}
 }
 /* =========================================================================
-   LOCATIONS MAP — the map now sits in the flow of the card and the search
-   field sits under it, so nothing covers the middle of the country.
+   LOCATIONS MAP — the search field floats on top of the map, centered in
+   the middle of it (not pinned to the top edge).
    ========================================================================= */
 .wp-home .elementor-337148 .elementor-element.elementor-element-2674c98 > .elementor-container{min-height:0}
 .wp-home .elementor-337148 .elementor-element.elementor-element-a8db181 > .elementor-widget-wrap.elementor-element-populated{
@@ -11965,9 +11965,16 @@ width: 20px;
   border:6px solid transparent;border-top-color:#1B1A1B}
 .wp-home .cc-tip.is-below{transform:translate(-50%,0)}
 .wp-home .cc-tip.is-below::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#1B1A1B}
-/* search field, now a normal row under the map */
+/* search field — floats over the map, centered on it both ways.
+   !important: a later, more specific rule
+   (.elementor-element-a8db181 > .elementor-widget-wrap.elementor-element-populated
+   > .elementor-element{position:relative;z-index:1}) targets every direct
+   child of the map card, including this widget, and otherwise wins on
+   specificity alone. */
 .wp-home .elementor-337148 .elementor-element.elementor-element-3626738{
-  width:100%;max-width:100%;--container-widget-width:100%;align-self:stretch;order:0}
+  position:absolute !important;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(420px,88%);max-width:min(420px,88%);--container-widget-width:100%;
+  z-index:6 !important;box-shadow:0 10px 28px rgba(20,12,8,.18);border-radius:10px}
 .wp-home .elementor-337148 .elementor-element.elementor-element-3626738 > .elementor-widget-container{margin:0;padding:0}
 .wp-home .elementor-337148 .elementor-element.elementor-element-3626738 .e-search-input{
   box-shadow:none;border:1px solid #DFE3E7;background:#fff;min-height:46px}
@@ -11975,7 +11982,81 @@ width: 20px;
 @media (max-width:767px){
   .wp-home .elementor-337148 .elementor-element.elementor-element-a8db181 > .elementor-widget-wrap.elementor-element-populated{
     padding:14px 14px 20px;gap:13px}
+  .wp-home .elementor-337148 .elementor-element.elementor-element-3626738{width:min(320px,92%);max-width:min(320px,92%)}
   .wp-home .cc-tip{max-width:min(78vw,250px);font-size:12px;padding:8px 10px}
+}
+/* =========================================================================
+   HEADQUARTERS CARD — the photo had a fixed 400px min-height, so this card
+   fell short of the map card (map + search + "Chimcare Locations" label)
+   next to it. The photo column is switched to a real vertical flexbox so
+   the photo grows to fill whatever height the row actually is (which
+   Elementor already stretches to match the map column), keeping both
+   cards' bottoms lined up at any viewport width instead of a fixed guess.
+   ========================================================================= */
+.wp-home .elementor-337148 .elementor-element.elementor-element-872fefd > .elementor-widget-wrap{
+  display:flex !important;flex-direction:column !important}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975{
+  flex:1 1 auto;min-height:0;display:flex}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 > .elementor-container{
+  min-height:0 !important;flex:1;display:flex}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 .elementor-column,
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 .elementor-widget-wrap.elementor-element-populated{
+  flex:1;display:flex;flex-direction:column}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 .elementor-widget-image{
+  flex:1;min-height:0;display:flex}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 .elementor-widget-container{
+  flex:1;display:flex}
+.wp-home .elementor-337148 .elementor-element.elementor-element-cf60975 img{
+  width:100%;height:100%;object-fit:cover;flex:1;min-height:0}
+.wp-home .elementor-337148 .elementor-element.elementor-element-6f6fe42{flex:0 0 auto}
+/* =========================================================================
+   LOCATIONS / HEADQUARTERS LABEL CARDS — the text block under the map and
+   under the HQ photo had no border-radius at all (sharp corners), unlike
+   every other card on the page. Rounded to match (25px, per DevTools).
+   ========================================================================= */
+.wp-home .elementor-337148 .elementor-element.elementor-element-0fe3dea .elementor-widget-wrap.elementor-element-populated,
+.wp-home .elementor-337148 .elementor-element.elementor-element-c9e72cd > .elementor-widget-wrap.elementor-element-populated{
+  border-radius:25px}
+/* =========================================================================
+   NAV BAR — the floating white header pill left its flex row at the
+   default align-items:normal (stretch), so the logo sat 10px from the top
+   but 18px from the bottom instead of centered. Center it so the gap
+   above and below the logo/menu/button matches.
+   ========================================================================= */
+.wp-home .elementor-337148 .elementor-element.elementor-element-af366cc > .elementor-container,
+.wp-home .elementor-337148 .elementor-element.elementor-element-af366cc .elementor-column{
+  align-items:center}
+/* =========================================================================
+   HERO FORM ON TABLET — .form-24 .gform-footer is positioned absolute
+   (top:-13px;right:14px) so the submit button floats beside the Zip Code
+   field. That only has room on desktop; an existing fix already drops it
+   into normal flow below the fields for phones (max-width:767px), but the
+   form is hidden below 768px anyway (elementor-hidden-mobile) — the gap
+   was never covering the 768-1024px tablet range where this form is
+   actually shown, so the button sat on top of/overlapped the Zip field.
+   ========================================================================= */
+@media only screen and (min-width:768px) and (max-width:1024px){
+  .wp-home .form-24 .gform-footer{
+    position:relative !important;right:0 !important;top:0 !important;
+    margin-top:8px !important;display:flex !important;justify-content:flex-end !important}
+  /* the "By submitting..." disclaimer sits at a fixed offset from the hero
+     background, independent of the form's own flow, so it doesn't
+     automatically drop when the button above gains height — push it down
+     by hand to clear the button. */
+  .wp-home .elementor-element-4c002c5{margin-top:40px !important}
+}
+/* NAV "CALL US NOW" — two call buttons exist in the header: a compact
+   icon-only one (elementor-element-c398819, correctly shown on mobile)
+   and a full text button (elementor-element-6e7e207) whose parent column
+   is marked hidden-tablet, so neither one is visible at 768-1024px —
+   tablet had no way to call from the header at all. Restoring the
+   full-width column for the text button broke into a 3-line wrap and
+   dropped to its own row (the row's other columns don't leave it enough
+   space at this width), so instead extend the already-working compact
+   icon button's visibility to cover tablet too. */
+@media only screen and (min-width:768px) and (max-width:1024px){
+  .wp-home .elementor-element-8e7141e.elementor-hidden-tablet,
+  .wp-home .elementor-element-c398819.elementor-hidden-tablet{display:flex !important}
 }
 /* =========================================================================
    PHONE PASS — layout and legibility fixes at small widths. Nothing here
@@ -12036,11 +12117,10 @@ width: 20px;
 .wp-home .elementor-337148 .elementor-element.elementor-element-39be3a8 > .elementor-container{
   width:fit-content;max-width:100%;margin-inline:auto;
   display:flex;flex-wrap:nowrap;align-items:center;gap:12px;
-  padding:10px 20px 10px 12px;border-radius:999px;
-  background:rgba(14,9,6,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  padding:10px 20px 10px 12px;border-radius:999px}
 .wp-home .elementor-337148 .elementor-element.elementor-element-39be3a8 .elementor-column{
   width:auto;flex:0 0 auto}
-.wp-home .elementor-337148 .elementor-element.elementor-element-0cfa979{text-shadow:none}
+.wp-home .elementor-337148 .elementor-element.elementor-element-0cfa979{text-shadow:0 1px 12px rgba(24,14,8,.55),0 1px 3px rgba(24,14,8,.45)}
 /* Brand red measured 1.03:1 against the carpet and tops out at 3.9:1 on pure
    black, so on this dark chip it takes the same lighter tint the approved
    design already uses for red on the near-black footer. */
@@ -12131,7 +12211,7 @@ width: 20px;
    ========================================================================= */
 @media (min-width:1025px){
   .wp-home .elementor-337148 .elementor-element.elementor-element-47ce424:not(.elementor-motion-effects-element-type-background){
-    background-size:auto 132% !important;background-position:34% 0% !important}
+    background-size:cover !important;background-position:34% 0% !important}
 }
 /* =========================================================================
    AWARDS — the four accreditation marks now sit in the hero, under the
@@ -12175,6 +12255,35 @@ width: 20px;
   background:#fff;border:1px solid #E4E8EB;border-radius:16px;padding:12px;
   box-shadow:0 2px 10px rgba(20,12,8,.05)}
 /* =========================================================================
+   AWARDS (below FAQ) — a second copy of the hero's award chips, restored
+   to its original spot after the FAQ section. Same compact chip layout as
+   the hero copy (elementor-element-bfe4a87), scoped to this row's own id
+   (ec87a17) since it no longer lives inside the hero.
+   ========================================================================= */
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 > .elementor-container{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;
+  gap:12px;width:fit-content;max-width:100%;margin-inline:auto;
+  background:none;padding:0;box-shadow:none}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 .elementor-column{
+  width:auto;flex:0 0 auto}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 .elementor-widget-wrap.elementor-element-populated{
+  background:rgba(255,255,255,.94);border-radius:14px;padding:10px 14px;
+  box-shadow:0 8px 22px rgba(20,12,8,.12);display:flex;align-items:center;justify-content:center;
+  min-width:104px;min-height:78px;box-sizing:border-box}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 .elementor-column:has(> .elementor-widget-wrap:not(.elementor-element-populated)){
+  display:none}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 .elementor-widget-wrap:not(.elementor-element-populated){
+  display:none}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 .elementor-widget-image{
+  width:auto;max-width:none;margin:0}
+.wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 img{
+  height:58px !important;width:auto !important;display:block}
+@media (max-width:767px){
+  .wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 > .elementor-container{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0;width:auto;max-width:280px;margin-inline:auto}
+  .wp-home .elementor-337148 .elementor-element.elementor-element-ec87a17 img{height:40px !important}
+}
+/* =========================================================================
    SECTION BANDING — alternating surfaces using spokane.html's --surface-2
    (#F5F4F2) against white, so each block of the page reads as its own band.
    Headings stay in the same band as the content they introduce.
@@ -12197,49 +12306,32 @@ width: 20px;
 .wp-home .elementor-337148 .elementor-element.elementor-element-6cbd526 .elementor-element-c9e72cd > .elementor-widget-wrap{
   background:#FFFFFF}
 .wp-home .elementor-337148 .elementor-element.elementor-element-af64fb1 .elementor-accordion-item{
-  background-color:#FFFFFF}
+  background-color:#FFFFFF;border-radius:15px}
 .wp-home .elementor-337148 .elementor-element.elementor-element-af64fb1 .elementor-tab-title{
   background-color:transparent}
 /* the search card already sits above the map on the same band — give it a
    hairline so it still reads as its own block against the tint */
 .wp-home .elementor-337148 .elementor-element.elementor-element-3626738 > .elementor-widget-container{
   border-color:#E7E4E0}
+/* =========================================================================
+   SECTION SPACING — uniform 50px top/bottom padding on every top-level
+   section for a consistent vertical rhythm down the page.
+   ========================================================================= */
+.wp-home .elementor-337148 > .elementor-top-section{
+  padding-top:50px !important;
+  padding-bottom:50px !important;
+}
+/* Four "heading" sections sit directly above their own content section
+   (Our Services, Where Does Chimcare Operate, the 3 steps, testimonials).
+   With every section getting its own 50px top+bottom, these pairs were
+   doubling up to a ~120-150px gap between the heading text and the cards
+   below it. Drop just the heading's bottom padding so the content
+   section's own 50px top padding is the only gap between them — every
+   other section-to-section transition keeps the full 50/50 rhythm. */
+.wp-home .elementor-337148 > .elementor-top-section.elementor-element-bf6df8b,
+.wp-home .elementor-337148 > .elementor-top-section.elementor-element-513487c,
+.wp-home .elementor-337148 > .elementor-top-section.elementor-element-50e9921,
+.wp-home .elementor-337148 > .elementor-top-section.elementor-element-0a94068{
+  padding-bottom:0 !important;
+}
 .wp-home #gform_wrapper_24[data-form-index="0"].gform-theme,.wp-home [data-parent-form="24_0"]{--gf-color-primary: #204ce5;--gf-color-primary-rgb: 32, 76, 229;--gf-color-primary-contrast: #fff;--gf-color-primary-contrast-rgb: 255, 255, 255;--gf-color-primary-darker: #001AB3;--gf-color-primary-lighter: #527EFF;--gf-color-secondary: #fff;--gf-color-secondary-rgb: 255, 255, 255;--gf-color-secondary-contrast: #112337;--gf-color-secondary-contrast-rgb: 17, 35, 55;--gf-color-secondary-darker: #F5F5F5;--gf-color-secondary-lighter: #FFFFFF;--gf-color-out-ctrl-light: rgba(17, 35, 55, 0.1);--gf-color-out-ctrl-light-rgb: 17, 35, 55;--gf-color-out-ctrl-light-darker: rgba(104, 110, 119, 0.35);--gf-color-out-ctrl-light-lighter: #F5F5F5;--gf-color-out-ctrl-dark: #585e6a;--gf-color-out-ctrl-dark-rgb: 88, 94, 106;--gf-color-out-ctrl-dark-darker: #112337;--gf-color-out-ctrl-dark-lighter: rgba(17, 35, 55, 0.65);--gf-color-in-ctrl: #fff;--gf-color-in-ctrl-rgb: 255, 255, 255;--gf-color-in-ctrl-contrast: #112337;--gf-color-in-ctrl-contrast-rgb: 17, 35, 55;--gf-color-in-ctrl-darker: #F5F5F5;--gf-color-in-ctrl-lighter: #FFFFFF;--gf-color-in-ctrl-primary: #204ce5;--gf-color-in-ctrl-primary-rgb: 32, 76, 229;--gf-color-in-ctrl-primary-contrast: #fff;--gf-color-in-ctrl-primary-contrast-rgb: 255, 255, 255;--gf-color-in-ctrl-primary-darker: #001AB3;--gf-color-in-ctrl-primary-lighter: #527EFF;--gf-color-in-ctrl-light: rgba(17, 35, 55, 0.1);--gf-color-in-ctrl-light-rgb: 17, 35, 55;--gf-color-in-ctrl-light-darker: rgba(104, 110, 119, 0.35);--gf-color-in-ctrl-light-lighter: #F5F5F5;--gf-color-in-ctrl-dark: #585e6a;--gf-color-in-ctrl-dark-rgb: 88, 94, 106;--gf-color-in-ctrl-dark-darker: #112337;--gf-color-in-ctrl-dark-lighter: rgba(17, 35, 55, 0.65);--gf-radius: 3px;--gf-font-size-secondary: 14px;--gf-font-size-tertiary: 13px;--gf-icon-ctrl-number: url("data:image/svg+xml,%3Csvg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M4 0C4.26522 5.96046e-08 4.51957 0.105357 4.70711 0.292893L7.70711 3.29289C8.09763 3.68342 8.09763 4.31658 7.70711 4.70711C7.31658 5.09763 6.68342 5.09763 6.29289 4.70711L4 2.41421L1.70711 4.70711C1.31658 5.09763 0.683417 5.09763 0.292893 4.70711C-0.0976311 4.31658 -0.097631 3.68342 0.292893 3.29289L3.29289 0.292893C3.48043 0.105357 3.73478 0 4 0ZM0.292893 9.29289C0.683417 8.90237 1.31658 8.90237 1.70711 9.29289L4 11.5858L6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289C8.09763 9.68342 8.09763 10.3166 7.70711 10.7071L4.70711 13.7071C4.31658 14.0976 3.68342 14.0976 3.29289 13.7071L0.292893 10.7071C-0.0976311 10.3166 -0.0976311 9.68342 0.292893 9.29289Z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-icon-ctrl-select: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0.292893 0.292893C0.683417 -0.097631 1.31658 -0.097631 1.70711 0.292893L5 3.58579L8.29289 0.292893C8.68342 -0.0976311 9.31658 -0.0976311 9.70711 0.292893C10.0976 0.683417 10.0976 1.31658 9.70711 1.70711L5.70711 5.70711C5.31658 6.09763 4.68342 6.09763 4.29289 5.70711L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292893Z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-icon-ctrl-search: url("data:image/svg+xml,%3Csvg width='640' height='640' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M256 128c-70.692 0-128 57.308-128 128 0 70.691 57.308 128 128 128 70.691 0 128-57.309 128-128 0-70.692-57.309-128-128-128zM64 256c0-106.039 85.961-192 192-192s192 85.961 192 192c0 41.466-13.146 79.863-35.498 111.248l154.125 154.125c12.496 12.496 12.496 32.758 0 45.254s-32.758 12.496-45.254 0L367.248 412.502C335.862 434.854 297.467 448 256 448c-106.039 0-192-85.962-192-192z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-label-space-y-secondary: var(--gf-label-space-y-md-secondary);--gf-ctrl-border-color: #686e77;--gf-ctrl-size: var(--gf-ctrl-size-md);--gf-ctrl-label-color-primary: #112337;--gf-ctrl-label-color-secondary: #112337;--gf-ctrl-choice-size: var(--gf-ctrl-choice-size-md);--gf-ctrl-checkbox-check-size: var(--gf-ctrl-checkbox-check-size-md);--gf-ctrl-radio-check-size: var(--gf-ctrl-radio-check-size-md);--gf-ctrl-btn-font-size: var(--gf-ctrl-btn-font-size-md);--gf-ctrl-btn-padding-x: var(--gf-ctrl-btn-padding-x-md);--gf-ctrl-btn-size: var(--gf-ctrl-btn-size-md);--gf-ctrl-btn-border-color-secondary: #686e77;--gf-ctrl-file-btn-bg-color-hover: #EBEBEB;--gf-field-img-choice-size: var(--gf-field-img-choice-size-md);--gf-field-img-choice-card-space: var(--gf-field-img-choice-card-space-md);--gf-field-img-choice-check-ind-size: var(--gf-field-img-choice-check-ind-size-md);--gf-field-img-choice-check-ind-icon-size: var(--gf-field-img-choice-check-ind-icon-size-md);--gf-field-pg-steps-number-color: rgba(17, 35, 55, 0.8);}
-.wp-home .newsletter-form {
-    display: flex;
-    max-width: 450px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
-}
-.wp-home .newsletter-form input[type="email"] {
-    flex: 1;
-    padding: 12px 15px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    color: #333;
-}
-.wp-home .newsletter-form input[type="email"]::placeholder {
-    color: #999;
-}
-.wp-home .newsletter-form button {
-    background: #DD2E44;
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-.wp-home .newsletter-form button:hover {
-    background: #d43f4f;
-}
-.wp-home .newsletter-message {
-    margin-top: 10px;
-    font-size: 14px;
-}
-.wp-home .newsletter-message.success { color: green; }
-.wp-home .newsletter-message.error { color: red; }

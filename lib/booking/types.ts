@@ -19,6 +19,9 @@ export type BookingContext = {
   serviceName?: string;
 };
 
+/** Contact details collected before the booking sheet opens (the homepage's request-service form). */
+export type BookingPrefill = { name?: string; phone?: string; email?: string; zip?: string };
+
 export type BookingSubmission = {
   service: ServiceKey;
   serviceLabel: string;

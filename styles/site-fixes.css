@@ -21,6 +21,25 @@
   }
 }
 
+/* ---- City directory (national and state hubs) ---------------------------------------------------
+   "Load more states" sat directly on the directory's top rule; give it room. The row header spread name,
+   count and + with space-between, so each count floated to wherever its state name ended; a grid puts
+   every count on the same left edge. */
+.tpl-hub div.dir-more,
+.tpl-state div.dir-more {
+  margin-bottom: 36px;
+}
+.tpl-hub .dirlist .chips-head,
+.tpl-state .dirlist .chips-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  justify-content: stretch;
+}
+.tpl-hub .dirlist .chips-head .c,
+.tpl-state .dirlist .chips-head .c {
+  text-align: left;
+}
+
 /* ---- Photo credits (licence attribution) -------------------------------------------------------- */
 .state-card .ph {
   position: relative;

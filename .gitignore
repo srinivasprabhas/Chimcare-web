@@ -23,3 +23,6 @@ next-env.d.ts
 
 # 222MB of extracted WordPress source; regenerate with scripts/extract-page-source.mjs
 data/seed/*.page-source.jsonl
+
+# vercel
+.vercel
