@@ -11,6 +11,11 @@
       user-agent value. `:where()` keeps these at the lowest specificity, so
       every scoped WordPress rule still wins.
    3. Elementor's JS-driven sticky "Why choose" column becomes CSS sticky.
+   4. The hero pins its one column to the bottom of an 850px-tall section.
+      With the Gravity Forms strip gone the column is shorter, so the nav
+      bar slid down to the middle of the photo. The column now fills the
+      hero and stacks vertically: the nav bar stays at the top, and the
+      heading, clients and awards stay at the bottom where they were.
    ===================================================================== */
 
 /* 1 */
@@ -56,4 +61,16 @@ body:has(> .wp-home) > #sfoot {
     top: 80px;
     align-self: flex-start;
   }
+}
+
+/* 4 */
+.wp-home .elementor-element-47ce424 > .elementor-container > .elementor-element-0aa708d {
+  align-self: stretch;
+}
+.wp-home .elementor-element-0aa708d > .elementor-widget-wrap {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.wp-home .elementor-element-0aa708d > .elementor-widget-wrap > .elementor-element-af366cc {
+  margin-bottom: auto; /* also matches the sticky header's hidden spacer clone, so the layout holds while it is fixed */
 }
